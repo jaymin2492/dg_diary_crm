@@ -17,7 +17,7 @@
         <!-- End mobile menu toggle-->
     </li>
 
-    <li class="dropdown d-none d-xl-block">
+   <?php /* ?>  <li class="dropdown d-none d-xl-block">
         <a class="nav-link dropdown-toggle waves-effect waves-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
             Create New
             <i class="mdi mdi-chevron-down"></i>
@@ -57,7 +57,6 @@
 
         </div>
     </li>
-
     <li class="dropdown dropdown-mega d-none d-xl-block">
         <a class="nav-link dropdown-toggle waves-effect waves-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
             Mega Menu
@@ -160,5 +159,5 @@
             </div>
 
         </div>
-    </li>
+    </li> <?php */ ?>
 </ul>
