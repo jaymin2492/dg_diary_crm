@@ -15,6 +15,8 @@
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ asset('public/assets/images/favicon.ico') }}">
 
+    <link href="{{ asset('public/assets/libs/mohithg-switchery/switchery.min.css') }}" rel="stylesheet" type="text/css" />
+
     <!-- Plugins css -->
     <link href="{{ asset('public/assets/libs/flatpickr/flatpickr.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('public/assets/libs/selectize/css/selectize.bootstrap3.css') }}" rel="stylesheet" type="text/css" />
@@ -27,6 +29,10 @@
     <link href="{{ asset('public/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- Head js -->
     <script src="{{ asset('public/assets/js/head.js') }}"></script>
+
+    <!-- Vendor js -->
+    <script src="{{ asset('public/assets/js/vendor.min.js') }}"></script>
+
 
 
 
@@ -113,8 +119,14 @@
 
 
 
-    <!-- Vendor js -->
-    <script src="{{ asset('public/assets/js/vendor.min.js') }}"></script>
+    
+    <script src="{{ asset('public/assets/libs/mohithg-switchery/switchery.min.js') }}"></script>
+    <script src="{{ asset('public/assets/libs/multiselect/js/jquery.multi-select.js') }}"></script>
+    <script src="{{ asset('public/assets/libs/select2/js/select2.min.js') }}"></script>
+    <script src="{{ asset('public/assets/libs/jquery-mockjax/jquery.mockjax.min.js') }}"></script>
+    <script src="{{ asset('public/assets/libs/devbridge-autocomplete/jquery.autocomplete.min.js') }}"></script>
+    <script src="{{ asset('public/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js') }}"></script>
+    <script src="{{ asset('public/assets/libs/bootstrap-maxlength/bootstrap-maxlength.min.js') }}"></script>
 
     <!-- Plugins js-->
     <script src="{{ asset('public/assets/libs/flatpickr/flatpickr.min.js') }}"></script>
@@ -127,6 +139,9 @@
 
     <!-- App js -->
     <script src="{{ asset('public/assets/js/app.min.js') }}"></script>
+
+    <!-- Init js-->
+    <script src="{{ asset('public/assets/js/pages/form-advanced.init.js') }}"></script>
 
 
 </body>

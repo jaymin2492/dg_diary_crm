@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\SchoolTypeController;
+use App\Http\Controllers\Admin\SchoolLevelController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,4 +28,5 @@ Route::middleware(['auth'])->group(function() {
 });
 Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function(){
     Route::resource('school_types', SchoolTypeController::class);
+    Route::resource('school_levels', SchoolLevelController::class);
 });

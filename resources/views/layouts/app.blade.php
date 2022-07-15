@@ -15,6 +15,8 @@
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ asset('public/assets/images/favicon.ico') }}">
 
+    <link href="{{ asset('public/assets/libs/mohithg-switchery/switchery.min.css') }}" rel="stylesheet" type="text/css" />
+
     <!-- Bootstrap css -->
     <link href="{{ asset('public/assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- App css -->
@@ -23,6 +25,9 @@
     <link href="{{ asset('public/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- Head js -->
     <script src="{{ asset('public/assets/js/head.js') }}"></script>
+
+    <!-- Vendor js -->
+    <script src="{{ asset('public/assets/js/vendor.min.js') }}"></script>
 
 
 
@@ -78,8 +83,9 @@
         </script> &copy; DgDiary
     </footer>
 
-    <!-- Vendor js -->
-    <script src="{{ asset('public/assets/js/vendor.min.js') }}"></script>
+    
+
+    <script src="{{ asset('public/assets/libs/mohithg-switchery/switchery.min.js') }}"></script>
 
     <!-- App js -->
     <script src="{{ asset('public/assets/js/app.min.js') }}"></script>

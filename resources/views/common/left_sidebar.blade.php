@@ -59,14 +59,14 @@
                 <li class="{{ (request()->segment(2) == 'school_types') ? 'menuitem-active' : '' }}">
                     <a href="{{ URL('admin/school_types') }}" class="{{ (request()->segment(1) == '' || request()->segment(1) == 'home') ? 'active' : '' }}">
                         <i data-feather="calendar"></i>
-                        <span> School Type </span>
+                        <span> School Types </span>
                     </a>
                 </li>
 
-                <li>
-                    <a href="{{ URL('school_types') }}">
+                <li class="{{ (request()->segment(2) == 'school_levels') ? 'menuitem-active' : '' }}">
+                    <a href="{{ URL('admin/school_levels') }}" class="{{ (request()->segment(1) == '' || request()->segment(1) == 'home') ? 'active' : '' }}">
                         <i data-feather="calendar"></i>
-                        <span> School Level </span>
+                        <span> School Levels </span>
                     </a>
                 </li>
 
