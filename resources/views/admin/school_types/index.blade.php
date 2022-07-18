@@ -83,13 +83,14 @@
                                         </div>
                                 </td>
                                 <td>
-                                <form action="{{ url('/admin/'.$urlSlug. '/' . $item->id) }}" method="POST">
+                                <a href="{{ url('/admin/'.$urlSlug. '/' . $item->id . '/edit') }}" class="btn btn-sm btn-primary" title="Edit"><i class="mdi mdi-square-edit-outline"></i> Edit</a>
+                                <!-- <form action="{{ url('/admin/'.$urlSlug. '/' . $item->id) }}" method="POST">
                                     <a href="{{ url('/admin/'.$urlSlug. '/' . $item->id . '/edit') }}" class="action-icon" title="Edit"><i class="mdi mdi-square-edit-outline"></i></a>
                                     <a href="{{ url('/admin/'.$urlSlug. '/' . $item->id) }}" class="action-icon" title="Show"><i class="mdi mdi-eye-outline"></i></a>
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" title="delete" class="action-icon" onclick="return confirm('Are you sure, You want to delete this?')" style="border:0; background: none;"><i class="mdi mdi-delete"></i></button>
-                                </form>
+                                </form> -->
                                 </td>
                             </tr>
                             @endforeach
