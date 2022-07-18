@@ -57,43 +57,41 @@
                 <li class="menu-title mt-2">Master</li>
 
                 <li class="{{ (request()->segment(2) == 'school_types') ? 'menuitem-active' : '' }}">
-                    <a href="{{ URL('admin/school_types') }}" class="{{ (request()->segment(1) == '' || request()->segment(1) == 'home') ? 'active' : '' }}">
+                    <a href="{{ URL('admin/school_types') }}" class="{{ (request()->segment(2) == 'school_types') ? 'active' : '' }}">
                         <i data-feather="calendar"></i>
                         <span> School Types </span>
                     </a>
                 </li>
 
                 <li class="{{ (request()->segment(2) == 'school_levels') ? 'menuitem-active' : '' }}">
-                    <a href="{{ URL('admin/school_levels') }}" class="{{ (request()->segment(1) == '' || request()->segment(1) == 'home') ? 'active' : '' }}">
+                    <a href="{{ URL('admin/school_levels') }}" class="{{ (request()->segment(2) == 'school_levels') ? 'active' : '' }}">
                         <i data-feather="calendar"></i>
                         <span> School Levels </span>
                     </a>
                 </li>
 
-                <li>
-                    <a href="{{ URL('school_types') }}">
+                <li class="{{ (request()->segment(2) == 'countries') ? 'menuitem-active' : '' }}">
+                    <a href="{{ URL('admin/countries') }}" class="{{ (request()->segment(2) == 'countries') ? 'active' : '' }}">
                         <i data-feather="calendar"></i>
-                        <span> Country </span>
+                        <span> Countries </span>
                     </a>
                 </li>
 
-
-                <li>
-                    <a href="{{ URL('school_types') }}">
+                <li class="{{ (request()->segment(2) == 'areas') ? 'menuitem-active' : '' }}">
+                    <a href="{{ URL('admin/areas') }}" class="{{ (request()->segment(2) == 'areas') ? 'active' : '' }}">
                         <i data-feather="calendar"></i>
-                        <span> Area </span>
+                        <span> Areas </span>
                     </a>
                 </li>
 
-                <li>
-                    <a href="{{ URL('school_types') }}">
+                <li class="{{ (request()->segment(2) == 'statuses') ? 'menuitem-active' : '' }}">
+                    <a href="{{ URL('admin/statuses') }}" class="{{ (request()->segment(2) == 'statuses') ? 'active' : '' }}">
                         <i data-feather="calendar"></i>
                         <span> Status </span>
                     </a>
                 </li>
-
-                <li>
-                    <a href="{{ URL('school_types') }}">
+                <li class="{{ (request()->segment(2) == 'roles') ? 'menuitem-active' : '' }}">
+                    <a href="{{ URL('admin/roles') }}" class="{{ (request()->segment(2) == 'roles') ? 'active' : '' }}">
                         <i data-feather="calendar"></i>
                         <span> Roles </span>
                     </a>

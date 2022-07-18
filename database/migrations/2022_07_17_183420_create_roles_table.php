@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSchoolTypesTable extends Migration
+class CreateRolesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateSchoolTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('school_types', function (Blueprint $table) {
+        Schema::create('roles', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->string('title')->unique();
             $table->text('description')->nullable();
+            $table->enum('is_default', ['0', '1'])->default('0');
             $table->enum('status', ['Active', 'Inactive'])->default('Active');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
@@ -31,6 +32,6 @@ class CreateSchoolTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('school_types');
+        Schema::dropIfExists('roles');
     }
 }

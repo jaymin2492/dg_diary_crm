@@ -51,7 +51,7 @@ class SchoolLevelController extends Controller
             $request->validate([
                 'title' => 'required',
                 //'description' => 'required',
-                'status' => 'required'
+                //'status' => 'required'
             ]);
             $params = $request->all();
             $urlSlug = $this->urlSlugs;
@@ -104,7 +104,7 @@ class SchoolLevelController extends Controller
             $request->validate([
                 'title' => 'required',
                 //'description' => 'required',
-                'status' => 'required'
+                //'status' => 'required'
             ]);
             $params = $request->all();
             $urlSlug = $this->urlSlugs;
@@ -127,5 +127,24 @@ class SchoolLevelController extends Controller
         $schoolLevel->delete();
         $urlSlug = $this->urlSlugs;
         return redirect()->route($urlSlug.'.index')->with('success', 'Item deleted successfully');
+    }
+
+    public function change_Status(Request $request)
+    {
+        try {
+            $request->validate([
+                'id' => 'required',
+                'status' => 'required'
+            ]);
+            $params = $request->all();
+            $id = $params['id'];
+            unset($params['id']);
+            $item = SchoolLevel::findOrFail($id);
+            $item->update($params);
+            return response()->json(['success'=>true, 'message'=>'Status Changes Successfully']);
+        }
+        catch (\Exception $e) {
+            return response()->json(['success'=>false, 'message'=>$e->getMessage()]);
+        }
     }
 }

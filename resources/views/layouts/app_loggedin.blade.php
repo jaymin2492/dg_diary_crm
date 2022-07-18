@@ -123,19 +123,22 @@
     <script src="{{ asset('public/assets/libs/mohithg-switchery/switchery.min.js') }}"></script>
     <script src="{{ asset('public/assets/libs/multiselect/js/jquery.multi-select.js') }}"></script>
     <script src="{{ asset('public/assets/libs/select2/js/select2.min.js') }}"></script>
-    <script src="{{ asset('public/assets/libs/jquery-mockjax/jquery.mockjax.min.js') }}"></script>
+    <!-- <script src="{{ asset('public/assets/libs/jquery-mockjax/jquery.mockjax.min.js') }}"></script> -->
     <script src="{{ asset('public/assets/libs/devbridge-autocomplete/jquery.autocomplete.min.js') }}"></script>
     <script src="{{ asset('public/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js') }}"></script>
     <script src="{{ asset('public/assets/libs/bootstrap-maxlength/bootstrap-maxlength.min.js') }}"></script>
 
     <!-- Plugins js-->
     <script src="{{ asset('public/assets/libs/flatpickr/flatpickr.min.js') }}"></script>
-    <script src="{{ asset('public/assets/libs/apexcharts/apexcharts.min.js') }}"></script>
+    <!-- <script src="{{ asset('public/assets/libs/apexcharts/apexcharts.min.js') }}"></script> -->
 
     <script src="{{ asset('public/assets/libs/selectize/js/standalone/selectize.min.js') }}"></script>
 
     <!-- Dashboar 1 init js-->
-    <script src="{{ asset('public/assets/js/pages/dashboard-1.init.js') }}"></script>
+    <!-- <script src="{{ asset('public/assets/js/pages/dashboard-1.init.js') }}"></script> -->
+
+    <!-- Sweet Alerts js -->
+    <script src="{{ asset('public/assets/libs/sweetalert2/sweetalert2.all.min.js') }}"></script>
 
     <!-- App js -->
     <script src="{{ asset('public/assets/js/app.min.js') }}"></script>

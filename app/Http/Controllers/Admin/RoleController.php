@@ -2,26 +2,26 @@
 
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
-use App\Models\SchoolType;
+use App\Models\Role;
 use Illuminate\Http\Request;
 
-class SchoolTypeController extends Controller
+class RoleController extends Controller
 {
     private $urlSlugs, $titles;
+
+    public function __construct()
+    {
+        $this->titles = "Roles";
+        $this->urlSlugs = "roles";
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function __construct()
-    {
-        $this->titles = "School Types";
-        $this->urlSlugs = "school_types";
-    }
-
     public function index()
     {
-        $items = SchoolType::latest()->paginate(10);
+        $items = Role::latest()->paginate(10);
         $urlSlug = $this->urlSlugs;
         $title = $this->titles;
         return view('admin.'.$urlSlug.'.index', compact('items','urlSlug','title'))->with('i', (request()->input('page', 1) - 1) * 5);
@@ -55,7 +55,7 @@ class SchoolTypeController extends Controller
             ]);
             $params = $request->all();
             $urlSlug = $this->urlSlugs;
-            SchoolType::create($params);
+            Role::create($params);
             return redirect()->route($urlSlug.'.index')->with('success', 'Item created successfully.');
         }
         catch (\Exception $e) {
@@ -66,12 +66,12 @@ class SchoolTypeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\SchoolType  $schoolType
+     * @param  \App\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function show(SchoolType $schoolType)
+    public function show(Role $role)
     {
-        $item = $schoolType;
+        $item = $role;
         $urlSlug = $this->urlSlugs;
         $title = $this->titles;
         return view('admin.'.$urlSlug.'.show', compact('item','urlSlug','title'));
@@ -80,12 +80,12 @@ class SchoolTypeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\SchoolType  $schoolType
+     * @param  \App\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function edit(SchoolType $schoolType)
+    public function edit(Role $role)
     {
-        $item = $schoolType;
+        $item = $role;
         $urlSlug = $this->urlSlugs;
         $title = $this->titles;
         return view('admin.'.$urlSlug.'.edit', compact('item','urlSlug','title'));
@@ -95,10 +95,10 @@ class SchoolTypeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\SchoolType  $schoolType
+     * @param  \App\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, SchoolType $schoolType)
+    public function update(Request $request, Role $role)
     {
         try {
             $request->validate([
@@ -107,8 +107,11 @@ class SchoolTypeController extends Controller
                 //'status' => 'required'
             ]);
             $params = $request->all();
+            if($role->is_default == "1"){
+                return back()->withErrors(new \Illuminate\Support\MessageBag(['catch_exception'=>'You can not update the default role.']));
+            }
             $urlSlug = $this->urlSlugs;
-            $schoolType->update($params);
+            $role->update($params);
             return redirect()->route($urlSlug.'.index')->with('success', 'Item updated successfully.');
         }
         catch (\Exception $e) {
@@ -119,12 +122,12 @@ class SchoolTypeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\SchoolType  $schoolType
+     * @param  \App\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function destroy(SchoolType $schoolType)
+    public function destroy(Role $role)
     {
-        $schoolType->delete();
+        $role->delete();
         $urlSlug = $this->urlSlugs;
         return redirect()->route($urlSlug.'.index')->with('success', 'Item deleted successfully');
     }
@@ -139,7 +142,10 @@ class SchoolTypeController extends Controller
             $params = $request->all();
             $id = $params['id'];
             unset($params['id']);
-            $item = SchoolType::findOrFail($id);
+            $item = Role::findOrFail($id);
+            if($item->is_default == "1"){
+                return response()->json(['success'=>false, 'message'=>'You can not update the default role.']);
+            }
             $item->update($params);
             return response()->json(['success'=>true, 'message'=>'Status Changes Successfully']);
         }

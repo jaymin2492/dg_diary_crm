@@ -21,14 +21,14 @@ if (isset($item)) {
     <textarea name="description" id="description" class="form-control" placeholder="Description" required>{{ $description }}</textarea>
 </div>
 
-<div class="mb-3">
+<!-- <div class="mb-3">
     <label for="cstatus" class="form-label">Status</label>
     <select class="form-select" name="status" id="cstatus" required>
         <option value="">Please Select</option>
         <option value="Active" @if($status == 'Active') selected="selected" @endif>Active</option>
         <option value="Inactive" @if($status == 'Inactive') selected="selected" @endif>Inactive</option>
     </select>
-</div>
+</div> -->
 <button type="submit" class="btn btn-primary waves-effect waves-light">Submit</button>
 <script type="text/javascript">
     jQuery(document).ready(function() {

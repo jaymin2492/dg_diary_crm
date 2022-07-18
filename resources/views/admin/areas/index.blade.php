@@ -20,25 +20,25 @@
 
 <div class="row">
     <div class="col-12">
-    @include ('messages')
+        @include ('messages')
         <div class="card">
             <div class="card-body">
                 <div class="row mb-2">
-                    
+
                     <div class="col-sm-8">
                         <div class="mt-2 mt-sm-0">
-                        <button type="button" class="btn btn-info mb-2">Export</button>
+                            <button type="button" class="btn btn-info mb-2">Export</button>
                         </div>
                     </div>
                     <div class="col-sm-4">
-                    <div class="text-sm-end mt-2 mt-sm-0">
-                        <a href="{{ URL('admin/'.$urlSlug.'/create') }}" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-plus-circle me-1"></i> Add {{ $title }}</a>
-                    </div>
+                        <div class="text-sm-end mt-2 mt-sm-0">
+                            <a href="{{ URL('admin/'.$urlSlug.'/create') }}" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-plus-circle me-1"></i> Add {{ $title }}</a>
+                        </div>
                     </div><!-- end col-->
                 </div>
-                
-                @if (empty($items->toArray()['data'])) 
-                            <p style="margin:150px 0;" class="text-center">No Items Found</p>
+
+                @if (empty($items->toArray()['data']))
+                <p style="margin:150px 0;" class="text-center">No Items Found</p>
                 @else
                 <div class="table-responsive">
                     <table class="table table-centered table-nowrap table-striped" id="products-datatable">
@@ -68,7 +68,7 @@
                                 <td>{{ $item->title }}</td>
                                 <td>{{ $item->description }}</td>
                                 <td>
-                                <div class="btn-group">
+                                    <div class="btn-group">
                                             <button type="button" class="btn btn-sm @if ($item->status == 'Active') btn-success @else btn-danger @endif dropdown-toggle waves-effect" data-bs-toggle="dropdown" aria-expanded="false">
                                                 @if ($item->status == 'Active') Active @else Inactive @endif
                                                 <i class="mdi mdi-chevron-down"></i>
@@ -83,20 +83,20 @@
                                         </div>
                                 </td>
                                 <td>
-                                <form action="{{ url('/admin/'.$urlSlug. '/' . $item->id) }}" method="POST">
-                                    <a href="{{ url('/admin/'.$urlSlug. '/' . $item->id . '/edit') }}" class="action-icon" title="Edit"><i class="mdi mdi-square-edit-outline"></i></a>
-                                    <a href="{{ url('/admin/'.$urlSlug. '/' . $item->id) }}" class="action-icon" title="Show"><i class="mdi mdi-eye-outline"></i></a>
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" title="delete" class="action-icon" onclick="return confirm('Are you sure, You want to delete this?')" style="border:0; background: none;"><i class="mdi mdi-delete"></i></button>
-                                </form>
+                                    <form action="{{ url('/admin/'.$urlSlug. '/' . $item->id) }}" method="POST">
+                                        <a href="{{ url('/admin/'.$urlSlug. '/' . $item->id . '/edit') }}" class="action-icon" title="Edit"><i class="mdi mdi-square-edit-outline"></i></a>
+                                        <a href="{{ url('/admin/'.$urlSlug. '/' . $item->id ) }}" class="action-icon" title="Show"><i class="mdi mdi-eye-outline"></i></a>
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" title="delete" class="action-icon" onclick="return confirm('Are you sure, You want to delete this?')" style="border:0; background: none;"><i class="mdi mdi-delete"></i></button>
+                                    </form>
                                 </td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
-                    @include ('pagination')
+                @include ('pagination')
                 @endif
             </div> <!-- end card-body-->
         </div> <!-- end card-->
@@ -106,7 +106,7 @@
     jQuery(document).ready(function(){
         jQuery(document).on("click",".change_Status.activate_it",function(){
             var curId = jQuery(this).attr("data-id");
-            ajaxStatusChange(jQuery(this), curId, 'Active',);
+            ajaxStatusChange(jQuery(this), curId, 'Active');
         })
         jQuery(document).on("click",".change_Status.deactivate_it",function(){
             var curId = jQuery(this).attr("data-id");

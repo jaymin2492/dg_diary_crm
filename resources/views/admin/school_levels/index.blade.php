@@ -27,9 +27,7 @@
 
                     <div class="col-sm-8">
                         <div class="mt-2 mt-sm-0">
-                            <button type="button" class="btn btn-success mb-2 me-1"><i class="mdi mdi-cog"></i></button>
-                            <button type="button" class="btn btn-light mb-2 me-1">Import</button>
-                            <button type="button" class="btn btn-light mb-2">Export</button>
+                            <button type="button" class="btn btn-info mb-2">Export</button>
                         </div>
                     </div>
                     <div class="col-sm-4">
@@ -70,9 +68,19 @@
                                 <td>{{ $item->title }}</td>
                                 <td>{{ $item->description }}</td>
                                 <td>
-                                    <div class="switchery-demo">
-                                        <input type="checkbox" @if ($item->status == 'Active') checked @endif data-plugin="switchery" data-color="#ff7aa3"/>
-                                    </div>
+                                    <div class="btn-group">
+                                            <button type="button" class="btn btn-sm @if ($item->status == 'Active') btn-success @else btn-danger @endif dropdown-toggle waves-effect" data-bs-toggle="dropdown" aria-expanded="false">
+                                                @if ($item->status == 'Active') Active @else Inactive @endif
+                                                <i class="mdi mdi-chevron-down"></i>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                @if ($item->status == 'Active')
+                                                <a class="dropdown-item change_Status deactivate_it" href="javascript: void(0);" data-id="{{ $item->id }}">Inactive</a>
+                                                @else
+                                                <a class="dropdown-item change_Status activate_it" href="javascript: void(0);"  data-id="{{ $item->id }}">Active</a>
+                                                @endif
+                                            </div>
+                                        </div>
                                 </td>
                                 <td>
                                     <form action="{{ url('/admin/'.$urlSlug. '/' . $item->id) }}" method="POST">
@@ -94,4 +102,47 @@
         </div> <!-- end card-->
     </div>
 </div>
+<script type="text/javascript">
+    jQuery(document).ready(function(){
+        jQuery(document).on("click",".change_Status.activate_it",function(){
+            var curId = jQuery(this).attr("data-id");
+            ajaxStatusChange(jQuery(this), curId, 'Active',);
+        })
+        jQuery(document).on("click",".change_Status.deactivate_it",function(){
+            var curId = jQuery(this).attr("data-id");
+            ajaxStatusChange(jQuery(this), curId, 'Inactive');
+        })
+    })
+    function ajaxStatusChange(element, curId, status){
+        jQuery.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        jQuery.ajax({
+            url: "{{ url('admin/'.$urlSlug.'/change_Status') }}",
+            method: 'post',
+            data: {
+                id: curId,
+                status: status
+            },
+            success: function(result){
+                if(result.success){
+                    if(status == "Active"){
+                        element.text("Inactive");
+                        element.removeClass("activate_it").addClass("deactivate_it");
+                        element.parent().parent().find("button").removeClass("btn-danger").addClass("btn-success").html('Active <i class="mdi mdi-chevron-down"></i>');
+                    }else if(status == "Inactive"){
+                        element.text("Active");
+                        element.removeClass("deactivate_it").addClass("activate_it");
+                        element.parent().parent().find("button").removeClass("btn-success").addClass("btn-danger").html('Inactive <i class="mdi mdi-chevron-down"></i>');
+                    }
+                    Swal.fire({icon:"success",title:"Great!",text:result.message});
+                }else{
+                    Swal.fire({icon:"error",title:"Oops...",text:result.message});
+                }
+            }
+        });
+    }
+</script>
 @endsection

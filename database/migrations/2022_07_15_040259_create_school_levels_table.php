@@ -17,7 +17,7 @@ class CreateSchoolLevelsTable extends Migration
             $table->id();
             $table->string('title');
             $table->text('description')->nullable();
-            $table->enum('status', ['Active', 'Inactive'])->default('Inactive');
+            $table->enum('status', ['Active', 'Inactive'])->default('Active');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
             $table->softDeletes();
