@@ -11,14 +11,18 @@ if (isset($item)) {
     $status = old('status');
 }
 ?>
-<div class="mb-3">
-    <label for="title" class="form-label">Title</label>
-    <input type="text" name="title" id="title" class="form-control" placeholder="Title" value="{{ $title }}" required>
-</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" name="title" id="title" class="form-control" placeholder="Title" value="{{ $title }}" required>
+        </div>
 
-<div class="mb-3">
-    <label for="description" class="form-label">Description</label>
-    <textarea name="description" id="description" class="form-control" placeholder="Description" required>{{ $description }}</textarea>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea name="description" id="description" class="form-control" placeholder="Description">{{ $description }}</textarea>
+        </div>
+    </div>
 </div>
 
 <!-- <div class="mb-3">

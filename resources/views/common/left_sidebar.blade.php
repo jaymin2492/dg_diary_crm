@@ -58,41 +58,41 @@
 
                 <li class="{{ (request()->segment(2) == 'school_types') ? 'menuitem-active' : '' }}">
                     <a href="{{ URL('admin/school_types') }}" class="{{ (request()->segment(2) == 'school_types') ? 'active' : '' }}">
-                        <i data-feather="calendar"></i>
+                        <i class="fas fa-bars mdi-account"></i>
                         <span> School Types </span>
                     </a>
                 </li>
 
                 <li class="{{ (request()->segment(2) == 'school_levels') ? 'menuitem-active' : '' }}">
                     <a href="{{ URL('admin/school_levels') }}" class="{{ (request()->segment(2) == 'school_levels') ? 'active' : '' }}">
-                        <i data-feather="calendar"></i>
+                        <i class="fas fa-bars mdi-account"></i>
                         <span> School Levels </span>
                     </a>
                 </li>
 
                 <li class="{{ (request()->segment(2) == 'countries') ? 'menuitem-active' : '' }}">
                     <a href="{{ URL('admin/countries') }}" class="{{ (request()->segment(2) == 'countries') ? 'active' : '' }}">
-                        <i data-feather="calendar"></i>
+                    <i class="fas fa-bars mdi-account"></i>
                         <span> Countries </span>
                     </a>
                 </li>
 
                 <li class="{{ (request()->segment(2) == 'areas') ? 'menuitem-active' : '' }}">
                     <a href="{{ URL('admin/areas') }}" class="{{ (request()->segment(2) == 'areas') ? 'active' : '' }}">
-                        <i data-feather="calendar"></i>
+                        <i class="fas fa-bars mdi-account"></i>
                         <span> Areas </span>
                     </a>
                 </li>
 
                 <li class="{{ (request()->segment(2) == 'statuses') ? 'menuitem-active' : '' }}">
                     <a href="{{ URL('admin/statuses') }}" class="{{ (request()->segment(2) == 'statuses') ? 'active' : '' }}">
-                        <i data-feather="calendar"></i>
+                        <i class="fas fa-bars mdi-account"></i>
                         <span> Status </span>
                     </a>
                 </li>
                 <li class="{{ (request()->segment(2) == 'roles') ? 'menuitem-active' : '' }}">
                     <a href="{{ URL('admin/roles') }}" class="{{ (request()->segment(2) == 'roles') ? 'active' : '' }}">
-                        <i data-feather="calendar"></i>
+                        <i class="fas fa-bars mdi-account"></i>
                         <span> Roles </span>
                     </a>
                 </li>
