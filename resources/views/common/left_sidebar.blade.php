@@ -96,6 +96,12 @@
                         <span> Roles </span>
                     </a>
                 </li>
+                <li class="{{ (request()->segment(2) == 'role_users') ? 'menuitem-active' : '' }}">
+                    <a href="{{ URL('admin/role_users') }}" class="{{ (request()->segment(2) == 'role_users') ? 'active' : '' }}">
+                        <i class="fas fa-bars mdi-account"></i>
+                        <span> Users </span>
+                    </a>
+                </li>
             </ul>
 
         </div>

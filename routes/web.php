@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\CountryController;
 use App\Http\Controllers\Admin\StatusController;
 use App\Http\Controllers\Admin\AreaController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\RoleUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,4 +44,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function(){
     Route::post('areas/change_Status', [AreaController::class, 'change_Status']);
     Route::resource('roles', RoleController::class);
     Route::post('roles/change_Status', [RoleController::class, 'change_Status']);
+    Route::resource('role_users', RoleUserController::class);
+    Route::post('role_users/change_Status', [RoleUserController::class, 'change_Status']);
 });
