@@ -14,13 +14,13 @@ if (isset($item)) {
 <div class="row">
     <div class="col-md-6">
         <div class="mb-3">
-            <label for="title" class="form-label">User Name</label>
-            <input type="text" name="user_name" id="user_name" class="form-control" placeholder="Name" value="{{ $user_name }}" required>
+            <label for="title" class="form-label">User Name*</label>
+            <input type="text" name="user_name" id="user_name" class="form-control" placeholder="Name*" value="{{ $user_name }}" required>
         </div>
 
         <div class="mb-3">
-            <label for="role_id" class="form-label">Select Role</label>
-            <select name="role_id" id="role_id" class="form-select">
+            <label for="role_id" class="form-label">Select Role*</label>
+            <select name="role_id" id="role_id" class="form-select" required>
                 <option value="">Please Select</option>
                 @foreach($roles as $role)
                     <option value="{{ $role['id'] }}" @if($role_id == $role['id']) selected  @endif>{{ $role['title'] }}</option>

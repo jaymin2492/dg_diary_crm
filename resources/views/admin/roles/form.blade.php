@@ -14,8 +14,8 @@ if (isset($item)) {
 <div class="row">
     <div class="col-md-6">
         <div class="mb-3">
-            <label for="title" class="form-label">Title</label>
-            <input type="text" name="title" id="title" class="form-control" placeholder="Title" value="{{ $title }}" required>
+            <label for="title" class="form-label">Title*</label>
+            <input type="text" name="title" id="title" class="form-control" placeholder="Title*" value="{{ $title }}" required>
         </div>
 
         <div class="mb-3">

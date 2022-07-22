@@ -26,9 +26,9 @@
                 <div class="row mb-2">
 
                     <div class="col-sm-8">
-                        <div class="mt-2 mt-sm-0">
+                        <!-- <div class="mt-2 mt-sm-0">
                             <button type="button" class="btn btn-info mb-2">Export</button>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="col-sm-4">
                         <div class="text-sm-end mt-2 mt-sm-0">
@@ -97,7 +97,6 @@
                         </tbody>
                     </table>
                 </div>
-                @include ('pagination')
                 @endif
             </div> <!-- end card-body-->
         </div> <!-- end card-->
@@ -105,6 +104,22 @@
 </div>
 <script type="text/javascript">
     jQuery(document).ready(function(){
+        jQuery("#products-datatable").DataTable({
+            "searching": true,
+            "responsive": false,
+            "autoWidth": false,
+            'dom'    : 'Bfrtip',
+            'buttons': [
+                {
+                    'extend'    : 'csvHtml5', 
+                    'text': 'Export',
+                    'title'     : 'Export - {{ $title }}',
+                    'exportOptions': {
+                        columns: [ 1, 2, 3 ]
+                    }
+                }
+            ]
+        });
         jQuery(document).on("click",".change_Status.activate_it",function(){
             var curId = jQuery(this).attr("data-id");
             ajaxStatusChange(jQuery(this), curId, 'Active');
