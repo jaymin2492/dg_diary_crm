@@ -21,10 +21,11 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $items = Role::latest()->paginate(10);
+        $items = Role::orderBy('created_at','desc')->get();
         $urlSlug = $this->urlSlugs;
         $title = $this->titles;
-        return view('admin.'.$urlSlug.'.index', compact('items','urlSlug','title'))->with('i', (request()->input('page', 1) - 1) * 5);
+        return view('admin.'.$urlSlug.'.index', compact('items','urlSlug','title'));
+        //return view('admin.'.$urlSlug.'.index', compact('items','urlSlug','title'))->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     /**

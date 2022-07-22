@@ -24,7 +24,7 @@ class RoleUserController extends Controller
      */
     public function index()
     {
-        $items = RoleUser::latest()->paginate(10);
+        $items = RoleUser::orderBy('created_at','desc')->get();
         $urlSlug = $this->urlSlugs;
         $title = $this->titles;
         $roles = Role::where("status","Active")->get()->toArray();
@@ -33,7 +33,8 @@ class RoleUserController extends Controller
             $idWiseRoles[$role['id']] = $role['title'];
         }
         $roles = $idWiseRoles;
-        return view('admin.'.$urlSlug.'.index', compact('items','urlSlug','title','roles'))->with('i', (request()->input('page', 1) - 1) * 5);
+        return view('admin.'.$urlSlug.'.index', compact('items','urlSlug','title','roles'));
+        //return view('admin.'.$urlSlug.'.index', compact('items','urlSlug','title','roles'))->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     /**

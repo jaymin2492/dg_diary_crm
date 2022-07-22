@@ -37,7 +37,7 @@
                     </div><!-- end col-->
                 </div>
                 
-                @if (empty($items->toArray()['data'])) 
+                @if (empty($items->toArray())) 
                             <p style="margin:150px 0;" class="text-center">No Items Found</p>
                 @else
                 <div class="table-responsive">
@@ -105,6 +105,15 @@
 <script type="text/javascript">
     jQuery(document).ready(function(){
         jQuery("#products-datatable").DataTable({
+            'language': {
+                paginate: {
+                    previous: "<i class='mdi mdi-chevron-left'>",
+                    next: "<i class='mdi mdi-chevron-right'>"
+                }
+            },
+            'drawCallback': function() {
+                jQuery(".dataTables_paginate > .pagination").addClass("pagination-rounded")
+            },
             "searching": true,
             "responsive": false,
             "autoWidth": false,

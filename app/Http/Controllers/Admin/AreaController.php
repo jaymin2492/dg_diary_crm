@@ -21,10 +21,11 @@ class AreaController extends Controller
      */
     public function index()
     {
-        $items = Area::latest()->paginate(10);
+        $items = Area::orderBy('created_at','desc')->get();
         $urlSlug = $this->urlSlugs;
         $title = $this->titles;
-        return view('admin.'.$urlSlug.'.index', compact('items','urlSlug','title'))->with('i', (request()->input('page', 1) - 1) * 5);
+        return view('admin.'.$urlSlug.'.index', compact('items','urlSlug','title'));
+        //return view('admin.'.$urlSlug.'.index', compact('items','urlSlug','title'))->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     /**
