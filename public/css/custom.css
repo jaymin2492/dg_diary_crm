@@ -1,2 +1,10 @@
-.form-control.error{ border-color: #f00 !important;}
-label.error{ color: #f00 !important;}
+body{
+    color: #1c1c1c;
+}
+.form-control.error,
+.form-select.error {
+    border-color: #f00 !important;
+}
+label.error {
+    color: #f00 !important;
+}
