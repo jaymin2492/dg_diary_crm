@@ -28,7 +28,6 @@ class SchoolContactController extends Controller
             }
             $items = SchoolContact::orderBy('created_at','desc')->get();
             $school = School::findOrFail($sid);
-            $school = $school->toarray();
             $urlSlug = $this->urlSlugs;
             $title = $this->titles;
             return view('admin.'.$urlSlug.'.index', compact('items','urlSlug','title','sid','school'));
@@ -47,12 +46,17 @@ class SchoolContactController extends Controller
      */
     public function create(Request $request, $sid='')
     {
-        if(empty($sid)){
-            return redirect()->route('schools.index');
+        try {
+            if (empty($sid)) {
+                return redirect()->route('schools.index');
+            }
+            $school = School::findOrFail($sid);
+            $urlSlug = $this->urlSlugs;
+            $title = $this->titles;
+            return view('admin.' . $urlSlug . '.create', compact('urlSlug', 'title', 'sid','school'));
+        } catch (\Exception $e) {
+            return back()->withErrors($e->getMessage())->withInput();
         }
-        $urlSlug = $this->urlSlugs;
-        $title = $this->titles;
-        return view('admin.'.$urlSlug.'.create', compact('urlSlug','title','sid'));
     }
 
     /**

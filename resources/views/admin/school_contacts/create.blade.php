@@ -9,11 +9,12 @@
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
                     <li class="breadcrumb-item"><a href="{{ URL('/') }}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{ URL('admin/schools/'.$sid.'/edit') }}">{{ $school->title }}</a></li>
                     <li class="breadcrumb-item"><a href="{{ URL('admin/'.$urlSlug) }}">{{ $title }}</a></li>
                     <li class="breadcrumb-item active">Add New {{ $title }}</li>
                 </ol>
             </div>
-            <h4 class="page-title">Add New {{ $title }}</h4>
+            <h4 class="page-title"><a href="{{ URL('admin/schools/'.$sid.'/edit') }}" style="text-decoration: underline;">{{ $school->title }}</a> - Add New {{ $title }}</h4>
         </div>
     </div>
 </div>

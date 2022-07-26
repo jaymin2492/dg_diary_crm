@@ -9,10 +9,11 @@
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
                     <li class="breadcrumb-item"><a href="{{ URL('/') }}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{ URL('admin/schools/'.$sid.'/edit') }}">{{ $school->title }}</a></li>
                     <li class="breadcrumb-item active">{{ $title }}</li>
                 </ol>
             </div>
-            <h4 class="page-title">{{ $title }}</h4>
+            <h4 class="page-title"> <a href="{{ URL('admin/schools/'.$sid.'/edit') }}" style="text-decoration: underline;">{{ $school->title }}</a> - {{ $title }}</h4>
         </div>
     </div>
 </div>
@@ -32,7 +33,7 @@
                     </div>
                     <div class="col-sm-4">
                         <div class="text-sm-end mt-2 mt-sm-0">
-                            <a href="{{ URL('admin/'.$urlSlug.'/create/'.$sid) }}" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-plus-circle me-1"></i> Add {{ $title }}</a>
+                            <a href="{{ URL('admin/'.$urlSlug.'/create/'.$sid) }}" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-plus-circle me-1"></i>Add {{ $title }}</a>
                         </div>
                     </div><!-- end col-->
                 </div>
