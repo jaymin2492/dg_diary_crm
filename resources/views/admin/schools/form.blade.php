@@ -44,12 +44,12 @@ if (isset($item)) {
 <div class="row">
     <div class="col-md-6">
         <div class="mb-3">
-            <label for="title" class="form-label">Title*</label>
+            <label for="title" class="form-label">Name*</label>
             <input type="text" name="title" id="title" class="form-control" placeholder="Name*" value="{{ $title }}" required>
         </div>
 
         <div class="mb-3">
-            <label for="school_type_id" class="form-label">School Type</label>
+            <label for="school_type_id" class="form-label">School Type*</label>
             <select class="form-select" name="school_type_id" id="school_type_id" required>
                 <option value="">Please Select</option>
                 @foreach($fieldItems['schoolTypes'] as $key => $value)
@@ -59,7 +59,7 @@ if (isset($item)) {
         </div>
 
         <div class="mb-3">
-            <label for="school_level_id" class="form-label">School Level</label>
+            <label for="school_level_id" class="form-label">School Level*</label>
             <select class="form-select" name="school_level_id" id="school_level_id" required>
                 <option value="">Please Select</option>
                 @foreach($fieldItems['schoolLevels'] as $key => $value)
@@ -69,7 +69,7 @@ if (isset($item)) {
         </div>
 
         <div class="mb-3">
-            <label for="country_id" class="form-label">Country</label>
+            <label for="country_id" class="form-label">Country*</label>
             <select class="form-select" name="country_id" id="country_id" required>
                 <option value="">Please Select</option>
                 @foreach($fieldItems['countries'] as $key => $value)
@@ -79,7 +79,7 @@ if (isset($item)) {
         </div>
 
         <div class="mb-3">
-            <label for="area_id" class="form-label">Area</label>
+            <label for="area_id" class="form-label">Area*</label>
             <select class="form-select" name="area_id" id="area_id" required>
                 <option value="">Please Select</option>
                 @foreach($fieldItems['areas'] as $key => $value)
@@ -124,10 +124,10 @@ if (isset($item)) {
         
         <div class="mb-3">
             <label for="title" class="form-label">Contract End Date*</label>
-            <input type="text" name="contract_till" id="contract_till" class="form-control" placeholder="Contract Till*" value="{{ $contract_till }}" required>
+            <input type="text" name="contract_till" id="contract_till" class="form-control" placeholder="Contract End Date*" value="{{ $contract_till }}" required>
         </div>
         <div class="mb-3">
-            <label for="sales_rep_id" class="form-label">Sales Rep</label>
+            <label for="sales_rep_id" class="form-label">Sales Rep*</label>
             <select class="form-select" name="sales_rep_id" id="sales_rep_id" required>
                 <option value="">Please Select</option>
                 @foreach($fieldItems['salesReps'] as $key => $value)
@@ -136,7 +136,7 @@ if (isset($item)) {
             </select>
         </div>
         <div class="mb-3">
-            <label for="sales_manager_id" class="form-label">Sales Manager</label>
+            <label for="sales_manager_id" class="form-label">Sales Manager*</label>
             <select class="form-select" name="sales_manager_id" id="sales_manager_id" required>
                 <option value="">Please Select</option>
                 @foreach($fieldItems['salesManagers'] as $key => $value)
@@ -145,7 +145,7 @@ if (isset($item)) {
             </select>
         </div>
         <div class="mb-3">
-            <label for="telemarketing_rep_id" class="form-label">TeleMarketing Rep</label>
+            <label for="telemarketing_rep_id" class="form-label">TeleMarketing Rep*</label>
             <select class="form-select" name="telemarketing_rep_id" id="telemarketing_rep_id" required>
                 <option value="">Please Select</option>
                 @foreach($fieldItems['teleMarketingReps'] as $key => $value)
@@ -154,7 +154,7 @@ if (isset($item)) {
             </select>
         </div>
         <div class="mb-3">
-            <label for="director_id" class="form-label">Director</label>
+            <label for="director_id" class="form-label">Director*</label>
             <select class="form-select" name="director_id" id="director_id" required>
                 <option value="">Please Select</option>
                 @foreach($fieldItems['directors'] as $key => $value)
@@ -163,7 +163,7 @@ if (isset($item)) {
             </select>
         </div>
         <div class="mb-3">
-            <label for="onboarding_rep_id" class="form-label">Onboarding Rep</label>
+            <label for="onboarding_rep_id" class="form-label">Onboarding Rep*</label>
             <select class="form-select" name="onboarding_rep_id" id="onboarding_rep_id" required>
                 <option value="">Please Select</option>
                 @foreach($fieldItems['onboardingReps'] as $key => $value)
@@ -172,7 +172,7 @@ if (isset($item)) {
             </select>
         </div>
         <div class="mb-3">
-            <label for="onboarding_manager_id" class="form-label">Onboarding Manager</label>
+            <label for="onboarding_manager_id" class="form-label">Onboarding Manager*</label>
             <select class="form-select" name="onboarding_manager_id" id="onboarding_manager_id" required>
                 <option value="">Please Select</option>
                 @foreach($fieldItems['onboardingManagers'] as $key => $value)
