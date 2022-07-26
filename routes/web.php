@@ -9,7 +9,8 @@ use App\Http\Controllers\Admin\StatusController;
 use App\Http\Controllers\Admin\AreaController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\RoleUserController;
-
+use App\Http\Controllers\Admin\SchoolController;
+use App\Http\Controllers\Admin\SchoolContactController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -46,4 +47,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function(){
     Route::post('roles/change_Status', [RoleController::class, 'change_Status']);
     Route::resource('role_users', RoleUserController::class);
     Route::post('role_users/change_Status', [RoleUserController::class, 'change_Status']);
+    Route::resource('schools', SchoolController::class);
+    Route::post('schools/change_Status', [SchoolController::class, 'change_Status']);
+
+    Route::get('school_contacts/{sid}', [SchoolContactController::class, 'index']);
+    Route::get('school_contacts/create/{sid}', [SchoolContactController::class, 'create']);
+    Route::get('school_contacts/change_Status', [SchoolContactController::class, 'create']);
+    Route::resource('school_contacts', SchoolContactController::class);
+
+
 });

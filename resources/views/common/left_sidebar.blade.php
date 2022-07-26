@@ -102,6 +102,12 @@
                         <span> Users </span>
                     </a>
                 </li>
+                <li class="{{ (request()->segment(2) == 'schools') ? 'menuitem-active' : '' }}">
+                    <a href="{{ URL('admin/schools') }}" class="{{ (request()->segment(2) == 'schools') ? 'active' : '' }}">
+                        <i class="fas fa-bars mdi-account"></i>
+                        <span> Schools </span>
+                    </a>
+                </li>
             </ul>
 
         </div>

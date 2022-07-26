@@ -20,6 +20,85 @@ class SchoolController extends Controller
     {
         $this->titles = "Schools";
         $this->urlSlugs = "schools";
+
+        $areas = array();
+        $allAreas = Area::where("status","Active")->orderBy("id","desc")->get(['id','title'])->toArray();
+        foreach($allAreas as $allArea){
+            $areas[$allArea['id']] = $allArea['title'];
+        }
+
+        $schoolTypes = array();
+        $allSchoolTypes = SchoolType::where("status","Active")->orderBy("id","desc")->get(['id','title'])->toArray();
+        foreach($allSchoolTypes as $allSchoolType){
+            $schoolTypes[$allSchoolType['id']] = $allSchoolType['title'];
+        }
+
+        $schoolLevels = array();
+        $allSchoolLevels = SchoolLevel::where("status","Active")->orderBy("id","desc")->get(['id','title'])->toArray();
+        foreach($allSchoolLevels as $allSchoolLevel){
+            $schoolLevels[$allSchoolLevel['id']] = $allSchoolLevel['title'];
+        }
+
+        $countries = array();
+        $allCountries = Country::where("status","Active")->orderBy("id","desc")->get(['id','title'])->toArray();
+        foreach($allCountries as $allCountry){
+            $countries[$allCountry['id']] = $allCountry['title'];
+        }
+
+        $roles = array();
+        $allRoles = Role::where("status","Active")->whereIn("title",array('Sales Rep','Sales Manager','TeleMarketing Rep','Director','Onboarding Rep','Onboarding Manager'))->orderBy("id","desc")->get(['id','title'])->toArray();
+        foreach($allRoles as $allRole){
+            $roles[$allRole['title']] = $allRole['id'];
+        }
+
+        $salesReps = array();
+        $allSalesReps = RoleUser::where("status","Active")->where("role_id",$roles['Sales Rep'])->orderBy("id","desc")->get(['id','user_name'])->toArray();
+        foreach($allSalesReps as $allSalesRep){
+            $salesReps[$allSalesRep['id']] = $allSalesRep['user_name'];
+        }
+
+        $salesManagers = array();
+        $allSalesManagers = RoleUser::where("status","Active")->where("role_id",$roles['Sales Manager'])->orderBy("id","desc")->get(['id','user_name'])->toArray();
+        foreach($allSalesManagers as $allSalesManager){
+            $salesManagers[$allSalesManager['id']] = $allSalesManager['user_name'];
+        }
+
+        $teleMarketingReps = array();
+        $allteleMarketingReps = RoleUser::where("status","Active")->where("role_id",$roles['TeleMarketing Rep'])->orderBy("id","desc")->get(['id','user_name'])->toArray();
+        foreach($allteleMarketingReps as $allteleMarketingRep){
+            $teleMarketingReps[$allteleMarketingRep['id']] = $allteleMarketingRep['user_name'];
+        }
+
+        $directors = array();
+        $allDirectors = RoleUser::where("status","Active")->where("role_id",$roles['Director'])->orderBy("id","desc")->get(['id','user_name'])->toArray();
+        foreach($allDirectors as $allDirector){
+            $directors[$allDirector['id']] = $allDirector['user_name'];
+        }
+
+        $onboardingReps = array();
+        $allOnboardingReps = RoleUser::where("status","Active")->where("role_id",$roles['Onboarding Rep'])->orderBy("id","desc")->get(['id','user_name'])->toArray();
+        foreach($allOnboardingReps as $allOnboardingRep){
+            $onboardingReps[$allOnboardingRep['id']] = $allOnboardingRep['user_name'];
+        }
+
+        $onboardingManagers = array();
+        $allOnboardingManagers = RoleUser::where("status","Active")->where("role_id",$roles['Onboarding Manager'])->orderBy("id","desc")->get(['id','user_name'])->toArray();
+        foreach($allOnboardingManagers as $allOnboardingManager){
+            $onboardingManagers[$allOnboardingManager['id']] = $allOnboardingManager['user_name'];
+        }
+
+        $fieldItems = array();
+        $fieldItems['areas'] = $areas;
+        $fieldItems['schoolTypes'] = $schoolTypes;
+        $fieldItems['schoolLevels'] = $schoolLevels;
+        $fieldItems['countries'] = $countries;
+        $fieldItems['salesReps'] = $salesReps;
+        $fieldItems['salesManagers'] = $salesManagers;
+        $fieldItems['teleMarketingReps'] = $teleMarketingReps;
+        $fieldItems['directors'] = $directors;
+        $fieldItems['onboardingReps'] = $onboardingReps;
+        $fieldItems['onboardingManagers'] = $onboardingManagers;
+        $this->fieldItems = $fieldItems;
     }
     /**
      * Display a listing of the resource.
@@ -44,7 +123,10 @@ class SchoolController extends Controller
     {
         $urlSlug = $this->urlSlugs;
         $title = $this->titles;
-        return view('admin.'.$urlSlug.'.create', compact('urlSlug','title'));
+
+        $fieldItems = $this->fieldItems;
+
+        return view('admin.'.$urlSlug.'.create', compact('urlSlug','title','fieldItems'));
     }
 
     /**
@@ -62,6 +144,7 @@ class SchoolController extends Controller
                 //'status' => 'required'
             ]);
             $params = $request->all();
+            $params['contract_till'] = date("Y-m-d",strtotime($params['contract_till']));
             $urlSlug = $this->urlSlugs;
             School::create($params);
             return redirect()->route($urlSlug.'.index')->with('success', 'Item created successfully.');
@@ -96,7 +179,8 @@ class SchoolController extends Controller
         $item = $school;
         $urlSlug = $this->urlSlugs;
         $title = $this->titles;
-        return view('admin.'.$urlSlug.'.edit', compact('item','urlSlug','title'));
+        $fieldItems = $this->fieldItems;
+        return view('admin.'.$urlSlug.'.edit', compact('item','urlSlug','title','fieldItems'));
     }
 
     /**
@@ -115,6 +199,7 @@ class SchoolController extends Controller
                 //'status' => 'required'
             ]);
             $params = $request->all();
+            $params['contract_till'] = date("Y-m-d",strtotime($params['contract_till']));
             $urlSlug = $this->urlSlugs;
             $school->update($params);
             return redirect()->route($urlSlug.'.index')->with('success', 'Item updated successfully.');
