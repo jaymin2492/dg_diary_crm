@@ -45,7 +45,7 @@ if (isset($item)) {
         </div>
         <?php $months = array("January","February","March","April","May","June","July","August","September","October","November","December");?>
         <div class="mb-3">
-            <label for="closure_month" class="form-label">Current Status By Manager*</label>
+            <label for="closure_month" class="form-label">Closure Month*</label>
             <select class="form-select" name="closure_month" id="closure_month" required>
                 <option value="">Please Select</option>
                 @foreach($months as $value)

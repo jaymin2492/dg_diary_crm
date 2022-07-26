@@ -1,5 +1,5 @@
 body{
-    color: #1c1c1c;
+    color: #1c1c1c !important;
 }
 .form-control.error,
 .form-select.error {
@@ -7,4 +7,15 @@ body{
 }
 label.error {
     color: #f00 !important;
+}
+
+#sidebar-menu>ul>li>a {
+    color: #1c1c1c;
+}
+
+table.dataTable>tbody>tr> td{
+    color: #1c1c1c !important;
+}
+table.dataTable>thead>tr> th{
+    color: #1c1c1c !important;
 }
