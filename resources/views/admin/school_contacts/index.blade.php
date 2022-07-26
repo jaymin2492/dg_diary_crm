@@ -51,8 +51,11 @@
                                         <label class="form-check-label" for="customCheck1">&nbsp;</label>
                                     </div>
                                 </th>
+                                <th>Name</th>
+                                <th>Department</th>
                                 <th>Title</th>
-                                <th>Description</th>
+                                <th>Email</th>
+                                <th>Phone</th>
                                 <th>Status</th>
                                 <th style="width: 85px;">Action</th>
                             </tr>
@@ -66,8 +69,11 @@
                                         <label class="form-check-label" for="customCheck2">&nbsp;</label>
                                     </div>
                                 </td>
+                                <td>{{ $item->name }}</td>
+                                <td>{{ $item->department }}</td>
                                 <td>{{ $item->title }}</td>
-                                <td>{{ $item->description }}</td>
+                                <td>{{ $item->email }}</td>
+                                <td>{{ $item->phone }}</td>
                                 <td>
                                     <div class="btn-group">
                                             <button type="button" class="btn btn-sm @if ($item->status == 'Active') btn-success @else btn-danger @endif dropdown-toggle waves-effect" data-bs-toggle="dropdown" aria-expanded="false">

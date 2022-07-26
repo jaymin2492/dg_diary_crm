@@ -76,6 +76,7 @@ class SchoolContactController extends Controller
             $params = $request->all();
             $urlSlug = $this->urlSlugs;
             SchoolContact::create($params);
+            return redirect('admin/'.$urlSlug.'/'.$params['school_id'])->with('success', 'Item created successfully.');
             return redirect()->route($urlSlug.'.index')->with('success', 'Item created successfully.');
         }
         catch (\Exception $e) {
@@ -105,10 +106,16 @@ class SchoolContactController extends Controller
      */
     public function edit(SchoolContact $schoolContact)
     {
-        $item = $schoolContact;
-        $urlSlug = $this->urlSlugs;
-        $title = $this->titles;
-        return view('admin.'.$urlSlug.'.edit', compact('item','urlSlug','title'));
+        try {
+            $item = $schoolContact;
+            $urlSlug = $this->urlSlugs;
+            $title = $this->titles;
+            $sid = $schoolContact->school_id;
+            $school = School::findOrFail($sid);
+            return view('admin.' . $urlSlug . '.edit', compact('item', 'urlSlug', 'title', 'sid', 'school'));
+        } catch (\Exception $e) {
+            return back()->withErrors($e->getMessage())->withInput();
+        }
     }
 
     /**
@@ -129,6 +136,7 @@ class SchoolContactController extends Controller
             $params = $request->all();
             $urlSlug = $this->urlSlugs;
             $schoolContact->update($params);
+            return redirect('admin/'.$urlSlug.'/'.$schoolContact->school_id)->with('success', 'Item updated successfully.');
             return redirect()->route($urlSlug.'.index')->with('success', 'Item updated successfully.');
         }
         catch (\Exception $e) {
