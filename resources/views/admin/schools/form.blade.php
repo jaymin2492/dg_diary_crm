@@ -89,7 +89,7 @@ if (isset($item)) {
         </div>
 
         <div class="mb-3">
-            <label for="population" class="form-label">Population*</label>
+            <label for="population" class="form-label">Population(In Lacs)*</label>
             <input type="number" name="population" id="population" class="form-control" placeholder="Population*" value="{{ $population }}" required>
         </div>
 
@@ -123,11 +123,11 @@ if (isset($item)) {
     <div class="col-md-6">
         
         <div class="mb-3">
-            <label for="title" class="form-label">Contract Till*</label>
+            <label for="title" class="form-label">Contract End Date*</label>
             <input type="text" name="contract_till" id="contract_till" class="form-control" placeholder="Contract Till*" value="{{ $contract_till }}" required>
         </div>
         <div class="mb-3">
-            <label for="sales_rep_id" class="form-label">TeleMarketing Rep</label>
+            <label for="sales_rep_id" class="form-label">Sales Rep</label>
             <select class="form-select" name="sales_rep_id" id="sales_rep_id" required>
                 <option value="">Please Select</option>
                 @foreach($fieldItems['salesReps'] as $key => $value)
@@ -203,5 +203,6 @@ if (isset($item)) {
 <script type="text/javascript">
     jQuery(document).ready(function() {
         jQuery("#create_form,#edit_form").validate();
+        jQuery("#contract_till").flatpickr();
     })
 </script>

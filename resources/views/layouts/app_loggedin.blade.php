@@ -20,6 +20,14 @@
     <!-- Plugins css -->
     <link href="{{ asset('public/assets/libs/flatpickr/flatpickr.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('public/assets/libs/selectize/css/selectize.bootstrap3.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('public/assets/libs/spectrum-colorpicker2/spectrum.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('public/assets/libs/clockpicker/bootstrap-clockpicker.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('public/assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('public/assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet" type="text/css" />
+
+
+    <!-- Plugins css -->
+    
 
     <!-- Bootstrap css -->
     <link href="{{ asset('public/assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
@@ -152,6 +160,7 @@
     <!-- Plugins js-->
     <script src="{{ asset('public/assets/libs/flatpickr/flatpickr.min.js') }}"></script>
     <!-- <script src="{{ asset('public/assets/libs/apexcharts/apexcharts.min.js') }}"></script> -->
+    <script src="{{ asset('public/assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
 
     <script src="{{ asset('public/assets/libs/selectize/js/standalone/selectize.min.js') }}"></script>
 
