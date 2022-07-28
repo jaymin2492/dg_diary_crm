@@ -18,8 +18,7 @@ class RoleUser extends Model
     protected $table = 'role_users';
 
     protected $fillable = [
-        'user_name',
         'role_id',
-        'status'
+        'user_id'
     ];
 }

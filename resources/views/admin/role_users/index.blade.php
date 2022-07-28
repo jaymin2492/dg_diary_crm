@@ -50,7 +50,8 @@
                                         <label class="form-check-label" for="customCheck1">&nbsp;</label>
                                     </div>
                                 </th>
-                                <th>User Name</th>
+                                <th>Name</th>
+                                <th>Email</th>
                                 <th>Role</th>
                                 <th>Status</th>
                                 <th style="width: 85px;">Action</th>
@@ -65,8 +66,13 @@
                                         <label class="form-check-label" for="customCheck2">&nbsp;</label>
                                     </div>
                                 </td>
-                                <td>{{ $item->user_name }}</td>
-                                <td>{{ $roles[$item->role_id] }}</td>
+                                <td>{{ $item->name }}</td>
+                                <td>{{ $item->email }}</td>
+                                <td>
+                                @if(isset($item->role->role_id))
+                                    {{ $roles[$item->role->role_id] }}
+                                @endif
+                                </td>
                                 <td>
                                     <div class="btn-group">
                                             <button type="button" class="btn btn-sm @if ($item->status == 'Active') btn-success @else btn-danger @endif dropdown-toggle waves-effect" data-bs-toggle="dropdown" aria-expanded="false">
@@ -83,7 +89,7 @@
                                         </div>
                                 </td>
                                 <td>
-                                <a href="{{ url('/admin/'.$urlSlug. '/' . $item->id . '/edit') }}" class="btn btn-sm btn-primary" title="Edit"><i class="mdi mdi-square-edit-outline"></i> Edit</a>
+                                <a href="{{ url('/admin/'.$urlSlug. '/' . $item->role->id . '/edit') }}" class="btn btn-sm btn-primary" title="Edit"><i class="mdi mdi-square-edit-outline"></i> Edit</a>
                                     <!-- <form action="{{ url('/admin/'.$urlSlug. '/' . $item->id) }}" method="POST">
                                         <a href="{{ url('/admin/'.$urlSlug. '/' . $item->id . '/edit') }}" class="action-icon" title="Edit"><i class="mdi mdi-square-edit-outline"></i></a>
                                         <a href="{{ url('/admin/'.$urlSlug. '/' . $item->id ) }}" class="action-icon" title="Show"><i class="mdi mdi-eye-outline"></i></a>

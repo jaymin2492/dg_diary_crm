@@ -10,10 +10,10 @@
                 <ol class="breadcrumb m-0">
                     <li class="breadcrumb-item"><a href="{{ URL('/') }}">Dashboard</a></li>
                     <li class="breadcrumb-item"><a href="{{ URL('admin/'.$urlSlug) }}">{{ $title }}</a></li>
-                    <li class="breadcrumb-item active">Edit role user - {{ $item->user_name }}</li>
+                    <li class="breadcrumb-item active">Edit role user - {{ $item->name }}</li>
                 </ol>
             </div>
-            <h4 class="page-title">Edit role user - {{ $item->user_name }}</h4>
+            <h4 class="page-title">Edit role user - {{ $item->name }}</h4>
         </div>
     </div>
 </div>
@@ -23,10 +23,10 @@
         @include ('messages')
         <div class="card">
             <div class="card-body">
-                <h4 class="header-title">Edit role user - {{ $item->user_name }}</h4>
-                <p class="text-muted font-13">Edit role user - {{ $item->user_name }}</p>
+                <h4 class="header-title">Edit role user - {{ $item->name }}</h4>
+                <p class="text-muted font-13">Edit role user - {{ $item->name }}</p>
                 <!--begin::Form-->
-                <form method="POST" action="{{ url('admin/'.$urlSlug.'/' . $item->id) }}" id="edit_form" accept-charset="UTF-8" enctype="multipart/form-data">
+                <form method="POST" action="{{ url('admin/'.$urlSlug.'/' . $item->role->id) }}" id="edit_form" accept-charset="UTF-8" enctype="multipart/form-data">
                     @csrf
                     {{ method_field('PATCH') }}
                     @include ('admin.'.$urlSlug.'.form', ['formMode' => 'update'])

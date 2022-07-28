@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\RoleUser;
+use App\Models\User;
 use App\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class RoleUserController extends Controller
 {
@@ -24,7 +26,7 @@ class RoleUserController extends Controller
      */
     public function index()
     {
-        $items = RoleUser::orderBy('created_at','desc')->get();
+        $items = User::with('role')->orderBy('created_at','desc')->get();
         $urlSlug = $this->urlSlugs;
         $title = $this->titles;
         $roles = Role::where("status","Active")->get()->toArray();
@@ -63,10 +65,20 @@ class RoleUserController extends Controller
                 'user_name' => 'required',
                 'role_id' => 'required|integer',
                 //'status' => 'required'
+                'email' => 'required|unique:users,email',
+                'password' => 'required'
             ]);
             $params = $request->all();
             $urlSlug = $this->urlSlugs;
-            RoleUser::create($params);
+            $userParams = array();
+            $userParams['name'] = $params['user_name'];
+            $userParams['email'] = $params['email'];
+            $userParams['password'] = Hash::make($params['password']);
+            $createdUser = User::create($userParams);
+            $roleUser = array();
+            $roleUser['role_id'] = $params['role_id'];
+            $roleUser['user_id'] = $createdUser->id;
+            RoleUser::create($roleUser);
             return redirect()->route($urlSlug.'.index')->with('success', 'Item created successfully.');
         }
         catch (\Exception $e) {
@@ -98,6 +110,7 @@ class RoleUserController extends Controller
     public function edit(RoleUser $roleUser)
     {
         $item = $roleUser;
+        $item = User::with('role')->where("id",$roleUser->user_id)->first();
         $urlSlug = $this->urlSlugs;
         $title = $this->titles;
         $roles = Role::where("status","Active")->get()->toArray();
@@ -118,10 +131,20 @@ class RoleUserController extends Controller
                 'user_name' => 'required',
                 'role_id' => 'required|integer',
                 //'status' => 'required'
+                'email' => 'required|unique:users,email,'.$roleUser->user_id,
+                'password' => 'required'
             ]);
             $params = $request->all();
+            $userParams = array();
+            $userParams['name'] = $params['user_name'];
+            $userParams['email'] = $params['email'];
+            $userParams['password'] = Hash::make($params['password']);
+            User::where("id",$roleUser->user_id)->update($userParams);
+            $roleUseri = array();
+            $roleUseri['role_id'] = $params['role_id'];
+            $roleUseri['user_id'] = $roleUser->user_id;
+            $roleUser->update($roleUseri);
             $urlSlug = $this->urlSlugs;
-            $roleUser->update($params);
             return redirect()->route($urlSlug.'.index')->with('success', 'Item updated successfully.');
         }
         catch (\Exception $e) {
@@ -152,7 +175,7 @@ class RoleUserController extends Controller
             $params = $request->all();
             $id = $params['id'];
             unset($params['id']);
-            $item = RoleUser::findOrFail($id);
+            $item = User::findOrFail($id);
             $item->update($params);
             return response()->json(['success'=>true, 'message'=>'Status Changes Successfully']);
         }
