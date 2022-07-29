@@ -76,14 +76,15 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth','masteruserrole']], f
     Route::post('roles/change_Status', [RoleController::class, 'change_Status']);
     Route::resource('role_users', RoleUserController::class);
     Route::post('role_users/change_Status', [RoleUserController::class, 'change_Status']);
+});
+
+Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function(){
     Route::resource('schools', SchoolController::class);
     Route::post('schools/change_Status', [SchoolController::class, 'change_Status']);
-
     Route::get('school_contacts/{sid}', [SchoolContactController::class, 'index']);
     Route::get('school_contacts/create/{sid}', [SchoolContactController::class, 'create']);
     Route::post('school_contacts/change_Status', [SchoolContactController::class, 'change_Status']);
     Route::resource('school_contacts', SchoolContactController::class);
-
     Route::get('school_notes/{sid}', [SchoolNoteController::class, 'index']);
     Route::get('school_notes/create/{sid}', [SchoolNoteController::class, 'create']);
     Route::post('school_notes/change_Status', [SchoolNoteController::class, 'change_Status']);

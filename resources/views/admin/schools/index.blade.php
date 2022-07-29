@@ -54,7 +54,6 @@
                                 <th>Population</th>
                                 <th>System</th>
                                 <th>School Tution</th>
-                                <th>Status</th>
                                 <th style="width: 85px;">Action</th>
                             </tr>
                         </thead>
@@ -71,8 +70,15 @@
                                 <td>{{ $item->population }}</td>
                                 <td>{{ $item->system }}</td>
                                 <td>{{ $item->school_tution }}</td>
+                                
                                 <td>
-                                    <div class="btn-group">
+                                <a href="{{ url('/admin/'.$urlSlug. '/' . $item->id . '/edit') }}" class="btn btn-sm btn-primary" title="Edit"><i class="mdi mdi-square-edit-outline"></i> Edit</a>
+
+                                <a href="{{ url('/admin/school_contacts/'.$item->id) }}" class="btn btn-sm btn-secondary"><i class="bx bxs-plus-circle"></i> <span>Contacts</span></a>
+
+                                <a href="{{ url('/admin/school_notes/'.$item->id) }}" class="btn btn-sm btn-info"><i class="bx bxs-plus-circle"></i> <span>Notes</span></a>
+
+                                <div class="btn-group" style="margin-left: 10px;">
                                             <button type="button" class="btn btn-sm @if ($item->status == 'Active') btn-success @else btn-danger @endif dropdown-toggle waves-effect" data-bs-toggle="dropdown" aria-expanded="false">
                                                 @if ($item->status == 'Active') Active @else Inactive @endif
                                                 <i class="mdi mdi-chevron-down"></i>
@@ -85,13 +91,6 @@
                                                 @endif
                                             </div>
                                         </div>
-                                </td>
-                                <td>
-                                <a href="{{ url('/admin/'.$urlSlug. '/' . $item->id . '/edit') }}" class="btn btn-sm btn-primary" title="Edit"><i class="mdi mdi-square-edit-outline"></i> Edit</a>
-
-                                <a href="{{ url('/admin/school_contacts/'.$item->id) }}" class="btn btn-sm btn-secondary"><i class="bx bxs-plus-circle"></i> <span>Contacts</span></a>
-
-                                <a href="{{ url('/admin/school_notes/'.$item->id) }}" class="btn btn-sm btn-info"><i class="bx bxs-plus-circle"></i> <span>Notes</span></a>
 
 
                                     <!-- <form action="{{ url('/admin/'.$urlSlug. '/' . $item->id) }}" method="POST">
