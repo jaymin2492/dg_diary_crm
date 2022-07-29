@@ -10,10 +10,10 @@
                 <ol class="breadcrumb m-0">
                     <li class="breadcrumb-item"><a href="{{ URL('/') }}">Dashboard</a></li>
                     <li class="breadcrumb-item"><a href="{{ URL('admin/'.$urlSlug) }}">{{ $title }}</a></li>
-                    <li class="breadcrumb-item active">Edit status - {{ $item->title }}</li>
+                    <li class="breadcrumb-item active">Edit Stage - {{ $item->title }}</li>
                 </ol>
             </div>
-            <h4 class="page-title">Edit status - {{ $item->title }}</h4>
+            <h4 class="page-title">Edit Stage - {{ $item->title }}</h4>
         </div>
     </div>
 </div>
@@ -23,8 +23,8 @@
         @include ('messages')
         <div class="card">
             <div class="card-body">
-                <h4 class="header-title">Edit status - {{ $item->title }}</h4>
-                <p class="text-muted font-13">Edit status - {{ $item->title }}</p>
+                <h4 class="header-title">Edit Stage - {{ $item->title }}</h4>
+                <p class="text-muted font-13">Edit Stage - {{ $item->title }}</p>
                 <!--begin::Form-->
                 <form method="POST" action="{{ url('admin/'.$urlSlug.'/' . $item->id) }}" id="edit_form" accept-charset="UTF-8" enctype="multipart/form-data">
                     @csrf

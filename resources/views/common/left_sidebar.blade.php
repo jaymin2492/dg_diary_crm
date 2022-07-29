@@ -92,7 +92,7 @@
                 <li class="{{ (request()->segment(2) == 'statuses') ? 'menuitem-active' : '' }}">
                     <a href="{{ URL('admin/statuses') }}" class="{{ (request()->segment(2) == 'statuses') ? 'active' : '' }}">
                         <i class="fas fa-bars mdi-account"></i>
-                        <span> Status </span>
+                        <span> Stage </span>
                     </a>
                 </li>
                 <li class="{{ (request()->segment(2) == 'roles') ? 'menuitem-active' : '' }}">

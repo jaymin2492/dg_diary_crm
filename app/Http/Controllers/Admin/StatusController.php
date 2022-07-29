@@ -11,7 +11,7 @@ class StatusController extends Controller
 
     public function __construct()
     {
-        $this->titles = "Status";
+        $this->titles = "Stage";
         $this->urlSlugs = "statuses";
     }
     /**
