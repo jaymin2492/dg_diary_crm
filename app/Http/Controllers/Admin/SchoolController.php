@@ -52,39 +52,69 @@ class SchoolController extends Controller
         }
 
         $salesReps = array();
-        $allSalesReps = RoleUser::where("status","Active")->where("role_id",$roles['Sales Rep'])->orderBy("id","desc")->get(['id','user_name'])->toArray();
+        //$allSalesReps = RoleUser::where("status","Active")->where("role_id",$roles['Sales Rep'])->orderBy("id","desc")->get(['id','user_name'])->toArray();
+        $allSalesReps = RoleUser::select('role_users.*', 'roles.title', 'roles.description')
+                            ->join('roles', 'roles.id', '=', 'role_users.role_id')
+                            ->where("role_id",$roles['Sales Rep'])
+                            ->get()
+                            ->toArray();
         foreach($allSalesReps as $allSalesRep){
-            $salesReps[$allSalesRep['id']] = $allSalesRep['user_name'];
+            $salesReps[$allSalesRep['id']] = $allSalesRep['title'];
         }
 
         $salesManagers = array();
-        $allSalesManagers = RoleUser::where("status","Active")->where("role_id",$roles['Sales Manager'])->orderBy("id","desc")->get(['id','user_name'])->toArray();
+        //$allSalesManagers = RoleUser::where("status","Active")->where("role_id",$roles['Sales Manager'])->orderBy("id","desc")->get(['id','user_name'])->toArray();
+        $allSalesManagers = RoleUser::select('role_users.*', 'roles.title', 'roles.description')
+                            ->join('roles', 'roles.id', '=', 'role_users.role_id')
+                            ->where("role_id",$roles['Sales Manager'])
+                            ->get()
+                            ->toArray();
         foreach($allSalesManagers as $allSalesManager){
-            $salesManagers[$allSalesManager['id']] = $allSalesManager['user_name'];
+            $salesManagers[$allSalesManager['id']] = $allSalesManager['title'];
         }
 
         $teleMarketingReps = array();
-        $allteleMarketingReps = RoleUser::where("status","Active")->where("role_id",$roles['TeleMarketing Rep'])->orderBy("id","desc")->get(['id','user_name'])->toArray();
+        //$allteleMarketingReps = RoleUser::where("status","Active")->where("role_id",$roles['TeleMarketing Rep'])->orderBy("id","desc")->get(['id','user_name'])->toArray();
+        $allteleMarketingReps = RoleUser::select('role_users.*', 'roles.title', 'roles.description')
+                            ->join('roles', 'roles.id', '=', 'role_users.role_id')
+                            ->where("role_id",$roles['TeleMarketing Rep'])
+                            ->get()
+                            ->toArray();
         foreach($allteleMarketingReps as $allteleMarketingRep){
-            $teleMarketingReps[$allteleMarketingRep['id']] = $allteleMarketingRep['user_name'];
+            $teleMarketingReps[$allteleMarketingRep['id']] = $allteleMarketingRep['title'];
         }
 
         $directors = array();
-        $allDirectors = RoleUser::where("status","Active")->where("role_id",$roles['Director'])->orderBy("id","desc")->get(['id','user_name'])->toArray();
+        //$allDirectors = RoleUser::where("status","Active")->where("role_id",$roles['Director'])->orderBy("id","desc")->get(['id','user_name'])->toArray();
+        $allDirectors = RoleUser::select('role_users.*', 'roles.title', 'roles.description')
+                            ->join('roles', 'roles.id', '=', 'role_users.role_id')
+                            ->where("role_id",$roles['Director'])
+                            ->get()
+                            ->toArray();
         foreach($allDirectors as $allDirector){
-            $directors[$allDirector['id']] = $allDirector['user_name'];
+            $directors[$allDirector['id']] = $allDirector['title'];
         }
 
         $onboardingReps = array();
-        $allOnboardingReps = RoleUser::where("status","Active")->where("role_id",$roles['Onboarding Rep'])->orderBy("id","desc")->get(['id','user_name'])->toArray();
+        //$allOnboardingReps = RoleUser::where("status","Active")->where("role_id",$roles['Onboarding Rep'])->orderBy("id","desc")->get(['id','user_name'])->toArray();
+        $allOnboardingReps = RoleUser::select('role_users.*', 'roles.title', 'roles.description')
+                            ->join('roles', 'roles.id', '=', 'role_users.role_id')
+                            ->where("role_id",$roles['Onboarding Rep'])
+                            ->get()
+                            ->toArray();
         foreach($allOnboardingReps as $allOnboardingRep){
-            $onboardingReps[$allOnboardingRep['id']] = $allOnboardingRep['user_name'];
+            $onboardingReps[$allOnboardingRep['id']] = $allOnboardingRep['title'];
         }
 
         $onboardingManagers = array();
-        $allOnboardingManagers = RoleUser::where("status","Active")->where("role_id",$roles['Onboarding Manager'])->orderBy("id","desc")->get(['id','user_name'])->toArray();
+        //$allOnboardingManagers = RoleUser::where("status","Active")->where("role_id",$roles['Onboarding Manager'])->orderBy("id","desc")->get(['id','user_name'])->toArray();
+        $allOnboardingManagers = RoleUser::select('role_users.*', 'roles.title', 'roles.description')
+                            ->join('roles', 'roles.id', '=', 'role_users.role_id')
+                            ->where("role_id",$roles['Onboarding Manager'])
+                            ->get()
+                            ->toArray();
         foreach($allOnboardingManagers as $allOnboardingManager){
-            $onboardingManagers[$allOnboardingManager['id']] = $allOnboardingManager['user_name'];
+            $onboardingManagers[$allOnboardingManager['id']] = $allOnboardingManager['title'];
         }
 
         $fieldItems = array();
