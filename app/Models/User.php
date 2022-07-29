@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\RoleUser;
 
 class User extends Authenticatable
 {
@@ -44,5 +45,18 @@ class User extends Authenticatable
 
     public function role() {
         return $this->hasOne('App\Models\RoleUser');
-      }
+    }
+
+    public function checkMasterRole() {
+        $checkCurrentrole = RoleUser::select('role_users.*', 'roles.title', 'roles.description')
+                            ->join('roles', 'roles.id', '=', 'role_users.role_id')
+                            ->where("role_users.user_id",$this->id)
+                            ->get()
+                            ->toArray();                
+        $checkCurrentrole = $checkCurrentrole[0];
+        if($checkCurrentrole['title'] == "Director" || $checkCurrentrole['title'] == "Onboarding Manager"){
+            return true;
+        }
+        return false;
+    }
 }

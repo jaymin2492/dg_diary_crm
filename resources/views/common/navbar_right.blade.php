@@ -213,10 +213,15 @@
             <div class="dropdown-divider"></div>
 
             <!-- item-->
-            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                <i class="fe-log-out"></i>
+
+            <a href="{{ route('logout') }}" class="dropdown-item notify-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+            <i class="fe-log-out"></i>
                 <span>Logout</span>
             </a>
+
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                {{ csrf_field() }}
+            </form>
 
         </div>
     </li>

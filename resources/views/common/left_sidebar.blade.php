@@ -54,6 +54,11 @@
                     </a>
                 </li>
 
+                <?php 
+                $currentUserIsMaster = \Auth::user()->checkMasterRole();
+                if($currentUserIsMaster){
+                ?>
+
                 <li class="menu-title mt-2">Master</li>
 
                 <li class="{{ (request()->segment(2) == 'school_types') ? 'menuitem-active' : '' }}">
@@ -108,6 +113,7 @@
                         <span> Schools </span>
                     </a>
                 </li>
+                <?php }?>
             </ul>
 
         </div>

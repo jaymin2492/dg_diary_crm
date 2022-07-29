@@ -60,8 +60,32 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function(){
     Route::get('school_notes/create/{sid}', [SchoolNoteController::class, 'create']);
     Route::post('school_notes/change_Status', [SchoolNoteController::class, 'change_Status']);
     Route::resource('school_notes', SchoolNoteController::class);
+});
+Route::group(['prefix' => 'admin', 'middleware' => ['auth','masteruserrole']], function(){
+    Route::resource('school_types', SchoolTypeController::class);
+    Route::post('school_types/change_Status', [SchoolTypeController::class, 'change_Status']);
+    Route::resource('school_levels', SchoolLevelController::class);
+    Route::post('school_levels/change_Status', [SchoolLevelController::class, 'change_Status']);
+    Route::resource('countries', CountryController::class);
+    Route::post('countries/change_Status', [CountryController::class, 'change_Status']);
+    Route::resource('statuses', StatusController::class);
+    Route::post('statuses/change_Status', [StatusController::class, 'change_Status']);
+    Route::resource('areas', AreaController::class);
+    Route::post('areas/change_Status', [AreaController::class, 'change_Status']);
+    Route::resource('roles', RoleController::class);
+    Route::post('roles/change_Status', [RoleController::class, 'change_Status']);
+    Route::resource('role_users', RoleUserController::class);
+    Route::post('role_users/change_Status', [RoleUserController::class, 'change_Status']);
+    Route::resource('schools', SchoolController::class);
+    Route::post('schools/change_Status', [SchoolController::class, 'change_Status']);
 
+    Route::get('school_contacts/{sid}', [SchoolContactController::class, 'index']);
+    Route::get('school_contacts/create/{sid}', [SchoolContactController::class, 'create']);
+    Route::post('school_contacts/change_Status', [SchoolContactController::class, 'change_Status']);
+    Route::resource('school_contacts', SchoolContactController::class);
 
-
-
+    Route::get('school_notes/{sid}', [SchoolNoteController::class, 'index']);
+    Route::get('school_notes/create/{sid}', [SchoolNoteController::class, 'create']);
+    Route::post('school_notes/change_Status', [SchoolNoteController::class, 'change_Status']);
+    Route::resource('school_notes', SchoolNoteController::class);
 });
