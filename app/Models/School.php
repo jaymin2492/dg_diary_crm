@@ -35,6 +35,10 @@ class School extends Model
         'onboarding_rep_id',
         'onboarding_manager_id',
         'school_tution',
-        'status'
+        'status',
+        'folow_up_date',
+        'status_id',
+        'manager_status_id',
+        'closure_month'
     ];
 }

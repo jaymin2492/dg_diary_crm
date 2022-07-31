@@ -19,10 +19,6 @@ class SchoolNote extends Model
 
     protected $fillable = [
         'notes',
-        'folow_up_date',
-        'status_id',
-        'manager_status_id',
-        'closure_month',
         'school_id',
         'status'
     ];

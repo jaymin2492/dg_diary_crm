@@ -59,4 +59,24 @@ class User extends Authenticatable
         }
         return false;
     }
+
+    public function currentRole() {
+        $checkCurrentrole = RoleUser::select('role_users.*', 'roles.title', 'roles.description')
+                            ->join('roles', 'roles.id', '=', 'role_users.role_id')
+                            ->where("role_users.user_id",$this->id)
+                            ->get()
+                            ->toArray();                
+        $checkCurrentrole = $checkCurrentrole[0];
+        return $checkCurrentrole['title'];
+    }
+
+    public function currentUSerRoleId() {
+        $checkCurrentrole = RoleUser::select('role_users.*', 'roles.title', 'roles.description')
+                            ->join('roles', 'roles.id', '=', 'role_users.role_id')
+                            ->where("role_users.user_id",$this->id)
+                            ->get()
+                            ->toArray();                
+        $checkCurrentrole = $checkCurrentrole[0];
+        return $checkCurrentrole['id'];
+    }
 }

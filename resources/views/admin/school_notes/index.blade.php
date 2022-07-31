@@ -52,10 +52,6 @@
                                     </div>
                                 </th>
                                 <th>Notes</th>
-                                <th>Follow up date</th>
-                                <th>Current Status</th>
-                                <th>Current Status By Manager</th>
-                                <th>Closure Month</th>
                                 <th>Status</th>
                                 <th style="width: 85px;">Action</th>
                             </tr>
@@ -70,18 +66,6 @@
                                     </div>
                                 </td>
                                 <td>{{ $item->notes }}</td>
-                                <td>{{ $item->folow_up_date }}</td>
-                                <td>
-                                <?php if(isset($fieldItems['statuses'][$item->status_id])){
-                                    echo $fieldItems['statuses'][$item->status_id];
-                                }?>    
-                                </td>
-                                <td>
-                                <?php if(isset($fieldItems['statuses'][$item->manager_status_id])){
-                                    echo $fieldItems['statuses'][$item->manager_status_id];
-                                }?>    
-                                </td>
-                                <td>{{ $item->closure_month }}</td>
                                 <td>
                                     <div class="btn-group">
                                             <button type="button" class="btn btn-sm @if ($item->status == 'Active') btn-success @else btn-danger @endif dropdown-toggle waves-effect" data-bs-toggle="dropdown" aria-expanded="false">

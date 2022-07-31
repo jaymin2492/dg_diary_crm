@@ -87,7 +87,7 @@ class SchoolNoteController extends Controller
             ]);
             $params = $request->all();
             $urlSlug = $this->urlSlugs;
-            $params['folow_up_date'] = date("Y-m-d",strtotime($params['folow_up_date']));
+            
             SchoolNote::create($params);
             return redirect('admin/'.$urlSlug.'/'.$params['school_id'])->with('success', 'Item created successfully.');
             return redirect()->route($urlSlug.'.index')->with('success', 'Item created successfully.');

@@ -11,6 +11,7 @@ use App\Models\Role;
 use App\Models\RoleUser;
 use App\Models\Status;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SchoolController extends Controller
 {
@@ -53,68 +54,80 @@ class SchoolController extends Controller
 
         $salesReps = array();
         //$allSalesReps = RoleUser::where("status","Active")->where("role_id",$roles['Sales Rep'])->orderBy("id","desc")->get(['id','user_name'])->toArray();
-        $allSalesReps = RoleUser::select('role_users.*', 'roles.title', 'roles.description')
+        $allSalesReps = RoleUser::select('role_users.*', 'roles.title', 'roles.description', 'users.name', 'users.email')
                             ->join('roles', 'roles.id', '=', 'role_users.role_id')
+                            ->join('users', 'users.id', '=', 'role_users.user_id')
                             ->where("role_id",$roles['Sales Rep'])
                             ->get()
                             ->toArray();
         foreach($allSalesReps as $allSalesRep){
-            $salesReps[$allSalesRep['id']] = $allSalesRep['title'];
+            $salesReps[$allSalesRep['id']] = $allSalesRep['name'];
         }
 
         $salesManagers = array();
         //$allSalesManagers = RoleUser::where("status","Active")->where("role_id",$roles['Sales Manager'])->orderBy("id","desc")->get(['id','user_name'])->toArray();
-        $allSalesManagers = RoleUser::select('role_users.*', 'roles.title', 'roles.description')
+        $allSalesManagers = RoleUser::select('role_users.*', 'roles.title', 'roles.description', 'users.name', 'users.email')
                             ->join('roles', 'roles.id', '=', 'role_users.role_id')
+                            ->join('users', 'users.id', '=', 'role_users.user_id')
                             ->where("role_id",$roles['Sales Manager'])
                             ->get()
                             ->toArray();
         foreach($allSalesManagers as $allSalesManager){
-            $salesManagers[$allSalesManager['id']] = $allSalesManager['title'];
+            $salesManagers[$allSalesManager['id']] = $allSalesManager['name'];
         }
 
         $teleMarketingReps = array();
         //$allteleMarketingReps = RoleUser::where("status","Active")->where("role_id",$roles['TeleMarketing Rep'])->orderBy("id","desc")->get(['id','user_name'])->toArray();
-        $allteleMarketingReps = RoleUser::select('role_users.*', 'roles.title', 'roles.description')
+        $allteleMarketingReps = RoleUser::select('role_users.*', 'roles.title', 'roles.description', 'users.name', 'users.email')
                             ->join('roles', 'roles.id', '=', 'role_users.role_id')
+                            ->join('users', 'users.id', '=', 'role_users.user_id')
                             ->where("role_id",$roles['TeleMarketing Rep'])
                             ->get()
                             ->toArray();
         foreach($allteleMarketingReps as $allteleMarketingRep){
-            $teleMarketingReps[$allteleMarketingRep['id']] = $allteleMarketingRep['title'];
+            $teleMarketingReps[$allteleMarketingRep['id']] = $allteleMarketingRep['name'];
         }
 
         $directors = array();
         //$allDirectors = RoleUser::where("status","Active")->where("role_id",$roles['Director'])->orderBy("id","desc")->get(['id','user_name'])->toArray();
-        $allDirectors = RoleUser::select('role_users.*', 'roles.title', 'roles.description')
+        $allDirectors = RoleUser::select('role_users.*', 'roles.title', 'roles.description', 'users.name', 'users.email')
                             ->join('roles', 'roles.id', '=', 'role_users.role_id')
+                            ->join('users', 'users.id', '=', 'role_users.user_id')
                             ->where("role_id",$roles['Director'])
                             ->get()
                             ->toArray();
         foreach($allDirectors as $allDirector){
-            $directors[$allDirector['id']] = $allDirector['title'];
+            $directors[$allDirector['id']] = $allDirector['name'];
         }
 
         $onboardingReps = array();
         //$allOnboardingReps = RoleUser::where("status","Active")->where("role_id",$roles['Onboarding Rep'])->orderBy("id","desc")->get(['id','user_name'])->toArray();
-        $allOnboardingReps = RoleUser::select('role_users.*', 'roles.title', 'roles.description')
+        $allOnboardingReps = RoleUser::select('role_users.*', 'roles.title', 'roles.description', 'users.name', 'users.email')
                             ->join('roles', 'roles.id', '=', 'role_users.role_id')
+                            ->join('users', 'users.id', '=', 'role_users.user_id')
                             ->where("role_id",$roles['Onboarding Rep'])
                             ->get()
                             ->toArray();
         foreach($allOnboardingReps as $allOnboardingRep){
-            $onboardingReps[$allOnboardingRep['id']] = $allOnboardingRep['title'];
+            $onboardingReps[$allOnboardingRep['id']] = $allOnboardingRep['name'];
         }
 
         $onboardingManagers = array();
         //$allOnboardingManagers = RoleUser::where("status","Active")->where("role_id",$roles['Onboarding Manager'])->orderBy("id","desc")->get(['id','user_name'])->toArray();
-        $allOnboardingManagers = RoleUser::select('role_users.*', 'roles.title', 'roles.description')
+        $allOnboardingManagers = RoleUser::select('role_users.*', 'roles.title', 'roles.description', 'users.name', 'users.email')
                             ->join('roles', 'roles.id', '=', 'role_users.role_id')
+                            ->join('users', 'users.id', '=', 'role_users.user_id')
                             ->where("role_id",$roles['Onboarding Manager'])
                             ->get()
                             ->toArray();
         foreach($allOnboardingManagers as $allOnboardingManager){
-            $onboardingManagers[$allOnboardingManager['id']] = $allOnboardingManager['title'];
+            $onboardingManagers[$allOnboardingManager['id']] = $allOnboardingManager['name'];
+        }
+
+        $statuses = array();
+        $allStatuses = Status::where("status","Active")->orderBy("id","asc")->get(['id','title'])->toArray();
+        foreach($allStatuses as $allStatus){
+            $statuses[$allStatus['id']] = $allStatus['title'];
         }
 
         $fieldItems = array();
@@ -128,6 +141,7 @@ class SchoolController extends Controller
         $fieldItems['directors'] = $directors;
         $fieldItems['onboardingReps'] = $onboardingReps;
         $fieldItems['onboardingManagers'] = $onboardingManagers;
+        $fieldItems['statuses'] = $statuses;
         $this->fieldItems = $fieldItems;
     }
     /**
@@ -137,7 +151,28 @@ class SchoolController extends Controller
      */
     public function index()
     {
-        $items = School::orderBy('created_at','desc')->get();
+        $curUser = Auth::user();
+        $curUserRole = $curUser->currentRole();
+        if($curUserRole == "Superadmin"){
+            $items = School::orderBy('created_at','desc')->get();
+        }else{
+            if($curUserRole == "Sales Rep"){
+                $keyCheck = "sales_rep_id";
+            }elseif($curUserRole == "Sales Manager"){
+                $keyCheck = "sales_manager_id";
+            }elseif($curUserRole == "TeleMarketing Rep"){
+                $keyCheck = "telemarketing_rep_id";
+            }elseif($curUserRole == "Director"){
+                $keyCheck = "director_id";
+            }elseif($curUserRole == "Onboarding Rep"){
+                $keyCheck = "onboarding_rep_id";
+            }elseif($curUserRole == "Onboarding Manager"){
+                $keyCheck = "onboarding_manager_id";
+            }
+            $items = School::where($keyCheck,$curUser->currentUSerRoleId())->orderBy('created_at','desc')->get();
+        }
+        
+
         $urlSlug = $this->urlSlugs;
         $title = $this->titles;
         return view('admin.'.$urlSlug.'.index', compact('items','urlSlug','title'));
@@ -175,6 +210,7 @@ class SchoolController extends Controller
             ]);
             $params = $request->all();
             $params['contract_till'] = date("Y-m-d",strtotime($params['contract_till']));
+            $params['folow_up_date'] = date("Y-m-d",strtotime($params['folow_up_date']));
             $urlSlug = $this->urlSlugs;
             School::create($params);
             return redirect()->route($urlSlug.'.index')->with('success', 'Item created successfully.');
@@ -230,6 +266,7 @@ class SchoolController extends Controller
             ]);
             $params = $request->all();
             $params['contract_till'] = date("Y-m-d",strtotime($params['contract_till']));
+            $params['folow_up_date'] = date("Y-m-d",strtotime($params['folow_up_date']));
             $urlSlug = $this->urlSlugs;
             $school->update($params);
             return redirect()->route($urlSlug.'.index')->with('success', 'Item updated successfully.');

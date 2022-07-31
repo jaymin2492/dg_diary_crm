@@ -19,3 +19,6 @@ table.dataTable>tbody>tr> td{
 table.dataTable>thead>tr> th{
     color: #1c1c1c !important;
 }
+table{
+    font-size:16px !important;
+}

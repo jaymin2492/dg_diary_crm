@@ -1,5 +1,5 @@
 <?php
-$title = $school_type_id = $school_level_id = $country_id = $population = $system = $online_student_portal = $name_of_the_system = $contract_till = $school_tution = $telemarketing_rep_id = $director_id = $onboarding_rep_id = $onboarding_manager_id = $status = $area_id = $sales_rep_id = $sales_manager_id = '';
+$title = $school_type_id = $school_level_id = $country_id = $population = $system = $online_student_portal = $name_of_the_system = $contract_till = $school_tution = $telemarketing_rep_id = $director_id = $onboarding_rep_id = $onboarding_manager_id = $status = $area_id = $sales_rep_id = $sales_manager_id = $folow_up_date = $status_id = $manager_status_id = $closure_month = '';
 $sorting = 1;
 if (isset($item)) {
     $title = $item->title;
@@ -20,6 +20,10 @@ if (isset($item)) {
     $onboarding_rep_id = $item->onboarding_rep_id;
     $onboarding_manager_id = $item->onboarding_manager_id;
     $status = $item->status;
+    $folow_up_date = $item->folow_up_date;
+    $status_id = $item->status_id;
+    $manager_status_id = $item->manager_status_id;
+    $closure_month = $item->closure_month;
 } else {
     $title = old('title');
     $area_id = old('area_id');
@@ -39,6 +43,10 @@ if (isset($item)) {
     $onboarding_rep_id = old('onboarding_rep_id');
     $onboarding_manager_id = old('onboarding_manager_id');
     $status = old('status');
+    $folow_up_date = old('folow_up_date');
+    $status_id = old('status_id');
+    $manager_status_id = old('manager_status_id');
+    $closure_month = old('closure_month');
 }
 ?>
 <div class="row">
@@ -116,7 +124,21 @@ if (isset($item)) {
             <input type="text" name="name_of_the_system" id="name_of_the_system" class="form-control" placeholder="Name of the system*" value="{{ $name_of_the_system }}" required>
         </div>
 
+        <div class="mb-3">
+            <label for="folow_up_date" class="form-label">Follow-up Date*</label>
+            <input type="text" name="folow_up_date" id="folow_up_date" class="form-control" placeholder="Follow-up Date*" value="{{ $folow_up_date }}" required>
+        </div>
 
+        <?php $months = array("January","February","March","April","May","June","July","August","September","October","November","December");?>
+        <div class="mb-3">
+            <label for="closure_month" class="form-label">Closure Month*</label>
+            <select class="form-select" name="closure_month" id="closure_month" required>
+                <option value="">Please Select</option>
+                @foreach($months as $value)
+                <option value="{{ $value }}" @if($closure_month==$value ) selected="selected" @endif>{{ $value }}</option>
+                @endforeach
+            </select>
+        </div>
 
     </div>
 
@@ -188,6 +210,26 @@ if (isset($item)) {
                 <option value="Paid" @if($school_tution=='Paid' ) selected="selected" @endif>Paid</option>
             </select>
         </div>
+        
+        <div class="mb-3">
+            <label for="status_id" class="form-label">Current Status*</label>
+            <select class="form-select" name="status_id" id="status_id" required>
+<!--                 <option value="">Please Select</option>
+ -->                @foreach($fieldItems['statuses'] as $key => $value)
+                <option value="{{ $key }}" @if($status_id==$key ) selected="selected" @endif>{{ $value }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="manager_status_id" class="form-label">Current Status By Manager*</label>
+            <select class="form-select" name="manager_status_id" id="manager_status_id" required>
+<!--                 <option value="">Please Select</option>
+ -->                @foreach($fieldItems['statuses'] as $key => $value)
+                <option value="{{ $key }}" @if($manager_status_id==$key ) selected="selected" @endif>{{ $value }}</option>
+                @endforeach
+            </select>
+        </div>
+        
     </div>
 </div>
 
@@ -204,5 +246,6 @@ if (isset($item)) {
     jQuery(document).ready(function() {
         jQuery("#create_form,#edit_form").validate();
         jQuery("#contract_till").flatpickr();
+        jQuery("#folow_up_date").flatpickr();
     })
 </script>
