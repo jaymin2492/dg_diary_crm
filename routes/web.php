@@ -50,6 +50,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function(){
     Route::post('role_users/change_Status', [RoleUserController::class, 'change_Status']);
     Route::resource('schools', SchoolController::class);
     Route::post('schools/change_Status', [SchoolController::class, 'change_Status']);
+    Route::post('schools/field_update', [SchoolController::class, 'field_update']);
+    
 
     Route::get('school_contacts/{sid}', [SchoolContactController::class, 'index']);
     Route::get('school_contacts/create/{sid}', [SchoolContactController::class, 'create']);

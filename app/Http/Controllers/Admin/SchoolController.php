@@ -171,11 +171,10 @@ class SchoolController extends Controller
             }
             $items = School::where($keyCheck,$curUser->currentUSerRoleId())->orderBy('created_at','desc')->get();
         }
-        
-
+        $fieldItems = $this->fieldItems;
         $urlSlug = $this->urlSlugs;
         $title = $this->titles;
-        return view('admin.'.$urlSlug.'.index', compact('items','urlSlug','title'));
+        return view('admin.'.$urlSlug.'.index', compact('items','urlSlug','title','fieldItems'));
         //return view('admin.'.$urlSlug.'.index', compact('items','urlSlug','title'))->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
@@ -302,6 +301,32 @@ class SchoolController extends Controller
             $item = School::findOrFail($id);
             $item->update($params);
             return response()->json(['success'=>true, 'message'=>'Status Changes Successfully']);
+        }
+        catch (\Exception $e) {
+            return response()->json(['success'=>false, 'message'=>$e->getMessage()]);
+        }
+    }
+
+    public function field_update(Request $request)
+    {
+        try {
+            $request->validate([
+                'id' => 'required',
+                'key' => 'required',
+                'value' => 'required'
+            ]);
+            $params = $request->all();
+            $id = $params['id'];
+            unset($params['id']);
+            $item = School::findOrFail($id);
+            $newParams = array();
+            $newParams[$params['key']] = $params['value'];
+            $item->update($newParams);
+            if($params['key'] == "status_id" || $params['key'] == "manager_status_id"){
+                $allStatuses = Status::where("id",$params['value'])->get(['id','title'])->toArray();
+                $params['value'] = $allStatuses[0]['title'];
+            }
+            return response()->json(['success'=>true, 'message'=>'School Updated Successfully','new_value'=>$params['value']]);
         }
         catch (\Exception $e) {
             return response()->json(['success'=>false, 'message'=>$e->getMessage()]);

@@ -22,3 +22,4 @@ table.dataTable>thead>tr> th{
 table{
     font-size:16px !important;
 }
+.editable_form{ display: none;}
