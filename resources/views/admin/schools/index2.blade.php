@@ -45,10 +45,7 @@
                         <thead>
                             <tr>
                                 <th style="width: 20px;">
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="customCheck1">
-                                        <label class="form-check-label" for="customCheck1">&nbsp;</label>
-                                    </div>
+                                    #
                                 </th>
                                 <th>Sales Rep</th>
                                 <th>School name</th>
@@ -78,12 +75,6 @@
             processing: true,
             serverSide: true,
             ajax: "{{ url('admin/'.$urlSlug.'/ajax_list') }}",
-            /* columns: [
-                {data: 'id', name: 'id'},
-                {data: 'name', name: 'name'},
-                {data: 'email', name: 'email'},
-                {data: 'action', name: 'action', orderable: false, searchable: false},
-            ], */
             'language': {
                 paginate: {
                     previous: "<i class='mdi mdi-chevron-left'>",
@@ -95,7 +86,7 @@
             },
             "searching": true,
             "responsive": false,
-            "autoWidth": false,
+            "autoWidth": true,
             'dom': 'Bfrtip',
             'buttons': [{
                 'extend': 'csvHtml5',

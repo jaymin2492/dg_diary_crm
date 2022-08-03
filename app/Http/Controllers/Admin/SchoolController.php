@@ -370,11 +370,35 @@ class SchoolController extends Controller
                     }
                     $newData[$k][] = $item['title'];
                     $newData[$k][] = $item['population'];
+
+
+
+
+                    $statusHTML= '';
+                    $statusHTML.= '<div class="editable_field">';
                     if(isset($fieldItems['statuses'][$item['status_id']])){
-                        $newData[$k][] = $fieldItems['statuses'][$item['status_id']];
+                        $statusHTML.= $fieldItems['statuses'][$item['status_id']];
                     }else{
-                        $newData[$k][] = $item['status_id'];
+                        $statusHTML.= $item['status_id'];
                     }
+                    $statusHTML.= '</div>';
+                    $statusHTML.= '<div class="editable_form">';
+                    $statusHTML.= '<select class="form-select" name="status_id" data-id="'.$item['id'].'" required><option value="">Please Select</option>';
+                    foreach($fieldItems['statuses'] as $key => $value){
+                        if($item['status_id'] == $key ){
+                            $statusHTML.= '<option value="'.$key.'" selected="selected">'.$value.'</option>';
+                        }else{
+                            $statusHTML.= '<option value="'.$key.'">'.$value.'</option>';
+                        }
+                    }
+                    if(isset($fieldItems['statuses'][$item['status_id']])){
+                        $statusHTML.= $fieldItems['statuses'][$item['status_id']];
+                    }else{
+                        $statusHTML.= $item['status_id'];
+                    }
+                    $statusHTML.= '</select>';
+                    $newData[$k][] = $statusHTML;
+
                     $newData[$k][] = $item['closure_month'];
                     $newData[$k][] = $item['folow_up_date'];
                     if(isset($fieldItems['statuses'][$item['manager_status_id']])){
