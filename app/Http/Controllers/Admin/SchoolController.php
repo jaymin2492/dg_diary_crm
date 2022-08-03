@@ -333,4 +333,34 @@ class SchoolController extends Controller
             return response()->json(['success'=>false, 'message'=>$e->getMessage()]);
         }
     }
+
+    public function ajax_list()
+    {
+        $curUser = Auth::user();
+        $curUserRole = $curUser->currentRole();
+        if($curUserRole == "Superadmin"){
+            $items = School::orderBy('created_at','desc')->get();
+        }else{
+            if($curUserRole == "Sales Rep"){
+                $keyCheck = "sales_rep_id";
+            }elseif($curUserRole == "Sales Manager"){
+                $keyCheck = "sales_manager_id";
+            }elseif($curUserRole == "TeleMarketing Rep"){
+                $keyCheck = "telemarketing_rep_id";
+            }elseif($curUserRole == "Director"){
+                $keyCheck = "director_id";
+            }elseif($curUserRole == "Onboarding Rep"){
+                $keyCheck = "onboarding_rep_id";
+            }elseif($curUserRole == "Onboarding Manager"){
+                $keyCheck = "onboarding_manager_id";
+            }
+            $items = School::where($keyCheck,$curUser->currentUSerRoleId())->orderBy('created_at','desc')->get();
+        }
+        echo '<pre>'; print_r($items->toArray()); exit;
+        $fieldItems = $this->fieldItems;
+        $urlSlug = $this->urlSlugs;
+        $title = $this->titles;
+        return response()->json(['success'=>true, 'data'=> $items->toArray()]);
+        //return view('admin.'.$urlSlug.'.index', compact('items','urlSlug','title'))->with('i', (request()->input('page', 1) - 1) * 5);
+    }
 }
