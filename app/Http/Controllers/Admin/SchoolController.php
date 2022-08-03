@@ -359,7 +359,34 @@ class SchoolController extends Controller
             $fieldItems = $this->fieldItems;
             $urlSlug = $this->urlSlugs;
             $title = $this->titles;
-            return response()->json(['draw' => true, 'data' => $items->toArray()]);
+            $newData = array();
+            if(!empty($items->toArray())){
+                foreach($items->toArray() as $k=>$item){
+                    $newData[$k][] = $item['id'];
+                    if(isset($fieldItems['salesReps'][$item['sales_rep_id']])){
+                        $newData[$k][] = $fieldItems['salesReps'][$item['sales_rep_id']];
+                    }else{
+                        $newData[$k][] = $item['sales_rep_id'];
+                    }
+                    $newData[$k][] = $item['title'];
+                    $newData[$k][] = $item['population'];
+                    if(isset($fieldItems['statuses'][$item['status_id']])){
+                        $newData[$k][] = $fieldItems['statuses'][$item['status_id']];
+                    }else{
+                        $newData[$k][] = $item['status_id'];
+                    }
+                    $newData[$k][] = $item['closure_month'];
+                    $newData[$k][] = $item['folow_up_date'];
+                    if(isset($fieldItems['statuses'][$item['manager_status_id']])){
+                        $newData[$k][] = $fieldItems['statuses'][$item['manager_status_id']];
+                    }else{
+                        $newData[$k][] = $item['manager_status_id'];
+                    }
+                    $newData[$k][] = 'Contacts_Notes';
+                    $newData[$k][] = 'Actions';
+                }
+            }
+            return response()->json(['draw' => true, 'data' => $newData]);
             //return view('admin.'.$urlSlug.'.index', compact('items','urlSlug','title'))->with('i', (request()->input('page', 1) - 1) * 5);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()]);

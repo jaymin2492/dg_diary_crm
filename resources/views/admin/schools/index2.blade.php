@@ -78,12 +78,12 @@
             processing: true,
             serverSide: true,
             ajax: "{{ url('admin/'.$urlSlug.'/ajax_list') }}",
-            columns: [
+            /* columns: [
                 {data: 'id', name: 'id'},
                 {data: 'name', name: 'name'},
                 {data: 'email', name: 'email'},
                 {data: 'action', name: 'action', orderable: false, searchable: false},
-            ],
+            ], */
             'language': {
                 paginate: {
                     previous: "<i class='mdi mdi-chevron-left'>",

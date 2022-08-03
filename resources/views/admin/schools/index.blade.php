@@ -169,6 +169,8 @@
     jQuery(document).ready(function() {
         jQuery(".folow_up_date").flatpickr();
         jQuery("#products-datatable").DataTable({
+            serverSide: true,
+            processing: true,
             'language': {
                 paginate: {
                     previous: "<i class='mdi mdi-chevron-left'>",
