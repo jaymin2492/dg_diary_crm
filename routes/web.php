@@ -48,10 +48,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function(){
     Route::post('roles/change_Status', [RoleController::class, 'change_Status']);
     Route::resource('role_users', RoleUserController::class);
     Route::post('role_users/change_Status', [RoleUserController::class, 'change_Status']);
+    Route::get('schools/ajax_list', [SchoolController::class, 'ajax_list']);
     Route::resource('schools', SchoolController::class);
     Route::post('schools/change_Status', [SchoolController::class, 'change_Status']);
     Route::post('schools/field_update', [SchoolController::class, 'field_update']);
-    Route::get('schools/ajax_list', [SchoolController::class, 'ajax_list']);
+    
     
     
 
