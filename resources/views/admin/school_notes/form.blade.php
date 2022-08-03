@@ -9,8 +9,11 @@ if (isset($item)) {
 ?>
 <div class="row">
     <div class="col-md-6">
+        
         <div class="mb-3">
             <label for="notes" class="form-label">Notes*</label>
+            <small style="display: block;"><?php echo Auth::user()->name;?> - <?php echo date("d/m/Y");?></small>
+            <input type="hidden" name="note_by_at" id="note_by_at" class="form-control" value="<?php echo Auth::user()->name;?> - <?php echo date("d/m/Y");?>" required>
             <input type="text" name="notes" id="notes" class="form-control" placeholder="Notes*" value="{{ $notes }}" required>
         </div>
         <input type="hidden" name="school_id" value="{{ $sid }}">

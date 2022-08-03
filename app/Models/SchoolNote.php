@@ -20,6 +20,7 @@ class SchoolNote extends Model
     protected $fillable = [
         'notes',
         'school_id',
-        'status'
+        'status',
+        'note_by_at'
     ];
 }

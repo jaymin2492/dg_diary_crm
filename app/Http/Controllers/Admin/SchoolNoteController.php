@@ -82,6 +82,7 @@ class SchoolNoteController extends Controller
         try {
             $request->validate([
                 'notes' => 'required',
+                'note_by_at' => 'required'
                 //'description' => 'required',
                 //'status' => 'required'
             ]);
@@ -144,11 +145,11 @@ class SchoolNoteController extends Controller
         try {
             $request->validate([
                 'notes' => 'required',
+                'note_by_at' => 'required'
                 //'description' => 'required',
                 //'status' => 'required'
             ]);
             $params = $request->all();
-            $params['folow_up_date'] = date("Y-m-d",strtotime($params['folow_up_date']));
             $urlSlug = $this->urlSlugs;
             $schoolNote->update($params);
             return redirect('admin/'.$urlSlug.'/'.$schoolNote->school_id)->with('success', 'Item updated successfully.');

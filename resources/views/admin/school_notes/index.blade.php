@@ -51,6 +51,7 @@
                                         <label class="form-check-label" for="customCheck1">&nbsp;</label>
                                     </div>
                                 </th>
+                                <th>Note By</th>
                                 <th>Notes</th>
                                 <th>Status</th>
                                 <th style="width: 85px;">Action</th>
@@ -65,6 +66,7 @@
                                         <label class="form-check-label" for="customCheck2">&nbsp;</label>
                                     </div>
                                 </td>
+                                <td>{{ $item->note_by_at }}</td>
                                 <td>{{ $item->notes }}</td>
                                 <td>
                                     <div class="btn-group">

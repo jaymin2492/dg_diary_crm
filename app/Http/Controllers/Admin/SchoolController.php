@@ -174,6 +174,7 @@ class SchoolController extends Controller
         $fieldItems = $this->fieldItems;
         $urlSlug = $this->urlSlugs;
         $title = $this->titles;
+        return view('admin.'.$urlSlug.'.index2', compact('items','urlSlug','title','fieldItems'));
         return view('admin.'.$urlSlug.'.index', compact('items','urlSlug','title','fieldItems'));
         //return view('admin.'.$urlSlug.'.index', compact('items','urlSlug','title'))->with('i', (request()->input('page', 1) - 1) * 5);
     }
