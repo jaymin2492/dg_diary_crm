@@ -175,7 +175,7 @@ class SchoolController extends Controller
         $fieldItems = $this->fieldItems;
         $urlSlug = $this->urlSlugs;
         $title = $this->titles;
-        //return view('admin.' . $urlSlug . '.index2', compact('items', 'urlSlug', 'title', 'fieldItems'));
+        return view('admin.' . $urlSlug . '.index2', compact('items', 'urlSlug', 'title', 'fieldItems'));
         return view('admin.' . $urlSlug . '.index', compact('items', 'urlSlug', 'title', 'fieldItems'));
         //return view('admin.'.$urlSlug.'.index', compact('items','urlSlug','title'))->with('i', (request()->input('page', 1) - 1) * 5);
     }
@@ -382,8 +382,18 @@ class SchoolController extends Controller
                     }else{
                         $newData[$k][] = $item['manager_status_id'];
                     }
-                    $newData[$k][] = 'Contacts_Notes';
-                    $newData[$k][] = 'Actions';
+
+                    $actionsHTML = '';
+                    $actionsHTML.= '<a href="'.URL('/admin/'.$urlSlug. '/' . $item['id'] . '/edit').'" class="btn btn-sm btn-primary" title="Edit"><i class="mdi mdi-square-edit-outline"></i> Edit</a>';
+                    $actionsHTML.= '<div class="btn-group" style="margin-left: 10px;">';
+                    $actionsHTML.= '</div>';
+                    if ($item['status'] == 'Active'){
+                        $actionsHTML.= '<button type="button" class="btn btn-sm btn-success dropdown-toggle waves-effect" data-bs-toggle="dropdown" aria-expanded="false">Active<i class="mdi mdi-chevron-down"></i></button><div class="dropdown-menu"><a class="dropdown-item change_Status deactivate_it" href="javascript: void(0);" data-id="'.$item['id'].'">Inactive</a></div>';
+                    }else{
+                        $actionsHTML.= '<button type="button" class="btn btn-sm btn-danger dropdown-toggle waves-effect" data-bs-toggle="dropdown" aria-expanded="false">Inactive<i class="mdi mdi-chevron-down"></i></button><div class="dropdown-menu"><a class="dropdown-item change_Status activate_it" href="javascript: void(0);" data-id="'.$item['id'].'">Active</a></div>';
+                    }
+                    $newData[$k][] = '<a href="'.URL('admin/school_contacts/'.$item['id']).'" class="btn btn-sm btn-secondary"><i class="bx bxs-plus-circle"></i> <span>Contacts</span></a>&nbsp;&nbsp;<a href="'.URL('admin/school_notes/'.$item['id']).'" class="btn btn-sm btn-info"><i class="bx bxs-plus-circle"></i> <span>Notes</span></a>';
+                    $newData[$k][] = $actionsHTML;
                 }
             }
             return response()->json(['draw' => true, 'data' => $newData]);
