@@ -98,8 +98,9 @@
             }]
         });
         jQuery("#products-datatable").on('xhr.dt', function(e, settings, json, xhr){
-            alert(123);
-            jQuery(".folow_up_date").flatpickr();
+            setTimeout(function(){
+                jQuery(".folow_up_date").flatpickr();
+            },1000);
         });
         jQuery(document).on("click", ".editable_field", function() {
             jQuery(this).next().show()
