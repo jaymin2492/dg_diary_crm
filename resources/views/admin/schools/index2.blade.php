@@ -70,7 +70,7 @@
 </div>
 <script type="text/javascript">
     jQuery(document).ready(function() {
-        jQuery(".folow_up_date").flatpickr();
+        
         jQuery("#products-datatable").DataTable({
             processing: true,
             serverSide: true,
@@ -97,11 +97,15 @@
                 }
             }]
         });
+        jQuery("#products-datatable").on('xhr.dt', function(e, settings, json, xhr){
+            alert(123);
+            jQuery(".folow_up_date").flatpickr();
+        });
         jQuery(document).on("click", ".editable_field", function() {
             jQuery(this).next().show()
             jQuery(this).hide();
         })
-        jQuery(".editable_form select, .editable_form input").on("change", function() {
+        jQuery(document).on("change", ".editable_form select, .editable_form input", function() {
             var curId = jQuery(this).attr("data-id");
             if (jQuery(this).val() == "") {
                 return false;

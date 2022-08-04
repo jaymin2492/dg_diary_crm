@@ -335,10 +335,48 @@ class SchoolController extends Controller
     {
         try {
             $curUser = Auth::user();
-            
             $curUserRole = $curUser->currentRole();
+            $params = $request->all();
+            $searchValue = '';
+            $fieldItems = $this->fieldItems;
+            if(isset($params['search']['value']) && !empty($params['search']['value'])){
+                $searchValue = $params['search']['value'];
+                $salesReps = $fieldItems['salesReps'];
+                $matchingSalesReps = array();
+                foreach($salesReps as $key=>$salesRep){
+                    if (strpos($salesRep, $searchValue) !== false) {
+                        $matchingSalesReps[] = $key;
+                    }
+                }
+                $statuses = $fieldItems['statuses'];
+                $matchingStatuses = array();
+                foreach($statuses as $key=>$status){
+                    if (strpos($status, $searchValue) !== false) {
+                        $matchingStatuses[] = $key;
+                    }
+                }
+            }
+           
+            
+            
+            
             if ($curUserRole == "Superadmin") {
-                $items = School::orderBy('created_at', 'desc')->get();
+                if(!empty($searchValue)){
+                    $items = School::where(function($q) use ($searchValue,$matchingSalesReps,$matchingStatuses){
+                        $q->where('title','LIKE','%'.$searchValue.'%')
+                        ->orWhere('population','LIKE','%'.$searchValue.'%')
+                        ->orWhere('closure_month','LIKE','%'.$searchValue.'%')
+                        ->orWhere('folow_up_date','LIKE','%'.$searchValue.'%');
+                        if(!empty($matchingSalesReps)){
+                            $q->orWhereIn('sales_rep_id',$matchingSalesReps);
+                        }
+                        if(!empty($matchingStatuses)){
+                            $q->orWhereIn('status_id',$matchingStatuses)->orWhereIn('manager_status_id',$matchingStatuses);
+                        }
+                    })->orderBy('created_at', 'desc');
+                }else{
+                    $items = School::orderBy('created_at', 'desc');
+                }
             } else {
                 if ($curUserRole == "Sales Rep") {
                     $keyCheck = "sales_rep_id";
@@ -353,15 +391,41 @@ class SchoolController extends Controller
                 } elseif ($curUserRole == "Onboarding Manager") {
                     $keyCheck = "onboarding_manager_id";
                 }
-                $items = School::where($keyCheck, $curUser->currentUSerRoleId())->orderBy('created_at', 'desc')->get();
+                if(!empty($searchValue)){
+                    $items = School::where(function($q) use ($searchValue,$matchingSalesReps,$matchingStatuses){
+                        $q->where('title','LIKE','%'.$searchValue.'%')
+                        ->orWhere('population','LIKE','%'.$searchValue.'%')
+                        ->orWhere('closure_month','LIKE','%'.$searchValue.'%')
+                        ->orWhere('folow_up_date','LIKE','%'.$searchValue.'%');
+                        if(!empty($matchingSalesReps)){
+                            $q->orWhereIn('sales_rep_id',$matchingSalesReps);
+                        }
+                        if(!empty($matchingStatuses)){
+                            $q->orWhereIn('status_id',$matchingStatuses)->orWhereIn('manager_status_id',$matchingStatuses);
+                        }
+                    })
+                    ->where($keyCheck, $curUser->currentUSerRoleId())
+                    ->orderBy('created_at', 'desc');
+                }else{
+                    $items = School::where($keyCheck, $curUser->currentUSerRoleId())->orderBy('created_at', 'desc');
+                }
             }
+
+            $totalRows = $items->get()->count();
+            $page = 1;
+            if(isset($request->start) && !empty($request->start) && $request->start > 1){
+                $page = $request->length/$request->start;
+                $page = $page + 1;
+            }
+            $items = $items->paginate(10, ['*'], 'page', $page);
+            //"recordsTotal": 57,
+            $items = $items->toArray();
             
-            $fieldItems = $this->fieldItems;
             $urlSlug = $this->urlSlugs;
             $title = $this->titles;
             $newData = array();
-            if(!empty($items->toArray())){
-                foreach($items->toArray() as $k=>$item){
+            if(!empty($items['data'])){
+                foreach($items['data'] as $k=>$item){
                     $newData[$k][] = $item['id'];
                     if(isset($fieldItems['salesReps'][$item['sales_rep_id']])){
                         $newData[$k][] = $fieldItems['salesReps'][$item['sales_rep_id']];
@@ -391,21 +455,62 @@ class SchoolController extends Controller
                             $statusHTML.= '<option value="'.$key.'">'.$value.'</option>';
                         }
                     }
-                    if(isset($fieldItems['statuses'][$item['status_id']])){
-                        $statusHTML.= $fieldItems['statuses'][$item['status_id']];
-                    }else{
-                        $statusHTML.= $item['status_id'];
+                    $statusHTML.= '</select>';
+                    $newData[$k][] = $statusHTML;
+
+
+                    $months = array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"); 
+                    $statusHTML= '';
+                    $statusHTML.= '<div class="editable_field">';
+                    $statusHTML.= $item['closure_month'];
+                    $statusHTML.= '</div>';
+                    $statusHTML.= '<div class="editable_form">';
+                    $statusHTML.= '<select class="form-select" name="closure_month" data-id="'.$item['id'].'" required><option value="">Please Select</option>';
+                    foreach($months as $key => $value){
+                        if($item['closure_month'] == $value ){
+                            $statusHTML.= '<option value="'.$value.'" selected="selected">'.$value.'</option>';
+                        }else{
+                            $statusHTML.= '<option value="'.$value.'">'.$value.'</option>';
+                        }
                     }
                     $statusHTML.= '</select>';
                     $newData[$k][] = $statusHTML;
 
-                    $newData[$k][] = $item['closure_month'];
-                    $newData[$k][] = $item['folow_up_date'];
+
+
+
+                    $statusHTML= '';
+                    $statusHTML.= '<div class="editable_field">';
+                    $statusHTML.= $item['folow_up_date'];
+                    $statusHTML.= '</div>';
+                    $statusHTML.= '<div class="editable_form">';
+                    $statusHTML.= '<input type="text" name="folow_up_date" class="form-control folow_up_date" data-id="'.$item['id'].'" placeholder="Follow-up Date*" value="'.$item['folow_up_date'].'" required>';
+                    $newData[$k][] = $statusHTML;
+
+                    
+                    $statusHTML= '';
+                    $statusHTML.= '<div class="editable_field">';
                     if(isset($fieldItems['statuses'][$item['manager_status_id']])){
-                        $newData[$k][] = $fieldItems['statuses'][$item['manager_status_id']];
+                        $statusHTML.= $fieldItems['statuses'][$item['manager_status_id']];
                     }else{
-                        $newData[$k][] = $item['manager_status_id'];
+                        $statusHTML.= $item['manager_status_id'];
                     }
+                    $statusHTML.= '</div>';
+                    $statusHTML.= '<div class="editable_form">';
+                    $statusHTML.= '<select class="form-select" name="manager_status_id" data-id="'.$item['id'].'" required><option value="">Please Select</option>';
+                    foreach($fieldItems['statuses'] as $key => $value){
+                        if($item['manager_status_id'] == $key ){
+                            $statusHTML.= '<option value="'.$key.'" selected="selected">'.$value.'</option>';
+                        }else{
+                            $statusHTML.= '<option value="'.$key.'">'.$value.'</option>';
+                        }
+                    }
+                    $statusHTML.= '</select>';
+                    $newData[$k][] = $statusHTML;
+
+
+
+
 
                     $actionsHTML = '';
                     $actionsHTML.= '<a href="'.URL('/admin/'.$urlSlug. '/' . $item['id'] . '/edit').'" class="btn btn-sm btn-primary" title="Edit"><i class="mdi mdi-square-edit-outline"></i> Edit</a>';
@@ -420,7 +525,7 @@ class SchoolController extends Controller
                     $newData[$k][] = $actionsHTML;
                 }
             }
-            return response()->json(['draw' => true, 'data' => $newData]);
+            return response()->json(['draw' => $request->draw, 'recordsTotal'=> $totalRows, 'recordsFiltered'=> $totalRows, 'data' => $newData]);
             //return view('admin.'.$urlSlug.'.index', compact('items','urlSlug','title'))->with('i', (request()->input('page', 1) - 1) * 5);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()]);
