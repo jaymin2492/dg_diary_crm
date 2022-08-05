@@ -325,6 +325,10 @@ class SchoolController extends Controller
                 $allStatuses = Status::where("id", $params['value'])->get(['id', 'title'])->toArray();
                 $params['value'] = $allStatuses[0]['title'];
             }
+            if ($params['key'] == "folow_up_date") {
+                $params['value'] = date("d M,Y",strtotime($params['value']));
+            }
+            
             return response()->json(['success' => true, 'message' => 'School Updated Successfully', 'new_value' => $params['value']]);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()]);
@@ -337,6 +341,7 @@ class SchoolController extends Controller
             $curUser = Auth::user();
             $curUserRole = $curUser->currentRole();
             $params = $request->all();
+            
             $searchValue = '';
             $fieldItems = $this->fieldItems;
             if(isset($params['search']['value']) && !empty($params['search']['value'])){
@@ -356,8 +361,23 @@ class SchoolController extends Controller
                     }
                 }
             }
-           
-            
+
+            $orderKey = "created_at";
+            $order = 'desc';
+            if(isset($params['order'][0]['column']) && !empty($params['order'][0]['column'])){
+                if($params['order'][0]['column'] == "0"){
+                    $orderKey = "id";
+                }elseif($params['order'][0]['column'] == "2"){
+                    $orderKey = "title";
+                }elseif($params['order'][0]['column'] == "3"){
+                    $orderKey = "population";
+                }elseif($params['order'][0]['column'] == "5"){
+                    $orderKey = "closure_month";
+                }elseif($params['order'][0]['column'] == "6"){
+                    $orderKey = "folow_up_date";
+                }
+                $order = $params['order'][0]['dir'];
+            }
             
             
             if ($curUserRole == "Superadmin") {
@@ -373,9 +393,9 @@ class SchoolController extends Controller
                         if(!empty($matchingStatuses)){
                             $q->orWhereIn('status_id',$matchingStatuses)->orWhereIn('manager_status_id',$matchingStatuses);
                         }
-                    })->orderBy('created_at', 'desc');
+                    })->orderBy($orderKey, $order);
                 }else{
-                    $items = School::orderBy('created_at', 'desc');
+                    $items = School::orderBy($orderKey, $order);
                 }
             } else {
                 if ($curUserRole == "Sales Rep") {
@@ -405,9 +425,9 @@ class SchoolController extends Controller
                         }
                     })
                     ->where($keyCheck, $curUser->currentUSerRoleId())
-                    ->orderBy('created_at', 'desc');
+                    ->orderBy($orderKey, $order);
                 }else{
-                    $items = School::where($keyCheck, $curUser->currentUSerRoleId())->orderBy('created_at', 'desc');
+                    $items = School::where($keyCheck, $curUser->currentUSerRoleId())->orderBy($orderKey, $order);
                 }
             }
 
@@ -481,7 +501,7 @@ class SchoolController extends Controller
 
                     $statusHTML= '';
                     $statusHTML.= '<div class="editable_field">';
-                    $statusHTML.= $item['folow_up_date'];
+                    $statusHTML.= date("d M,Y",strtotime($item['folow_up_date']));
                     $statusHTML.= '</div>';
                     $statusHTML.= '<div class="editable_form">';
                     $statusHTML.= '<input type="text" name="folow_up_date" class="form-control folow_up_date" data-id="'.$item['id'].'" placeholder="Follow-up Date*" value="'.$item['folow_up_date'].'" required>';
@@ -514,13 +534,14 @@ class SchoolController extends Controller
 
                     $actionsHTML = '';
                     $actionsHTML.= '<a href="'.URL('/admin/'.$urlSlug. '/' . $item['id'] . '/edit').'" class="btn btn-sm btn-primary" title="Edit"><i class="mdi mdi-square-edit-outline"></i> Edit</a>';
-                    $actionsHTML.= '<div class="btn-group" style="margin-left: 10px;">';
-                    $actionsHTML.= '</div>';
+                    $actionsHTML.= '<div class="btn-group" style="margin-left: 10px; position: relative;">';
+                    
                     if ($item['status'] == 'Active'){
                         $actionsHTML.= '<button type="button" class="btn btn-sm btn-success dropdown-toggle waves-effect" data-bs-toggle="dropdown" aria-expanded="false">Active<i class="mdi mdi-chevron-down"></i></button><div class="dropdown-menu"><a class="dropdown-item change_Status deactivate_it" href="javascript: void(0);" data-id="'.$item['id'].'">Inactive</a></div>';
                     }else{
                         $actionsHTML.= '<button type="button" class="btn btn-sm btn-danger dropdown-toggle waves-effect" data-bs-toggle="dropdown" aria-expanded="false">Inactive<i class="mdi mdi-chevron-down"></i></button><div class="dropdown-menu"><a class="dropdown-item change_Status activate_it" href="javascript: void(0);" data-id="'.$item['id'].'">Active</a></div>';
                     }
+                    $actionsHTML.= '</div>';
                     $newData[$k][] = '<a href="'.URL('admin/school_contacts/'.$item['id']).'" class="btn btn-sm btn-secondary"><i class="bx bxs-plus-circle"></i> <span>Contacts</span></a>&nbsp;&nbsp;<a href="'.URL('admin/school_notes/'.$item['id']).'" class="btn btn-sm btn-info"><i class="bx bxs-plus-circle"></i> <span>Notes</span></a>';
                     $newData[$k][] = $actionsHTML;
                 }

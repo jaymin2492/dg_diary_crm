@@ -66,14 +66,16 @@ class RoleUserController extends Controller
                 'role_id' => 'required|integer',
                 //'status' => 'required'
                 'email' => 'required|unique:users,email',
-                'password' => 'required'
+                //'password' => 'required'
             ]);
             $params = $request->all();
             $urlSlug = $this->urlSlugs;
             $userParams = array();
             $userParams['name'] = $params['user_name'];
             $userParams['email'] = $params['email'];
-            $userParams['password'] = Hash::make($params['password']);
+            if(isset($params['password']) && !empty($params['password'])){
+                $userParams['password'] = Hash::make($params['password']);
+            }
             $createdUser = User::create($userParams);
             $roleUser = array();
             $roleUser['role_id'] = $params['role_id'];
@@ -132,13 +134,15 @@ class RoleUserController extends Controller
                 'role_id' => 'required|integer',
                 //'status' => 'required'
                 'email' => 'required|unique:users,email,'.$roleUser->user_id,
-                'password' => 'required'
+                //'password' => 'required'
             ]);
             $params = $request->all();
             $userParams = array();
             $userParams['name'] = $params['user_name'];
             $userParams['email'] = $params['email'];
-            $userParams['password'] = Hash::make($params['password']);
+            if(isset($params['password']) && !empty($params['password'])){
+                $userParams['password'] = Hash::make($params['password']);
+            }
             User::where("id",$roleUser->user_id)->update($userParams);
             $roleUseri = array();
             $roleUseri['role_id'] = $params['role_id'];

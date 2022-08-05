@@ -50,15 +50,15 @@
                                         <label class="form-check-label" for="customCheck1">&nbsp;</label>
                                     </div>
                                 </th>
-                                <th>Sales Rep</th>
+                                <th class="no-sort">Sales Rep</th>
                                 <th>School name</th>
                                 <th>Population</th>
-                                <th>Sales Stage</th>
+                                <th class="no-sort">Sales Stage</th>
                                 <th>Closure Month</th>
                                 <th>Follow-up date</th>
-                                <th>Manager Status</th>
-                                <th>Details</th>
-                                <th style="width: 85px;">Action</th>
+                                <th class="no-sort">Manager Status</th>
+                                <th class="no-sort">Details</th>
+                                <th class="no-sort" style="width: 85px;">Action</th>
                             </tr>
                         </thead>
                         <tbody>
