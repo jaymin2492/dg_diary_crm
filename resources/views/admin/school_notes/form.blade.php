@@ -8,13 +8,13 @@ if (isset($item)) {
 }
 ?>
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
         
         <div class="mb-3">
             <label for="notes" class="form-label">Notes*</label>
-            <small style="display: block;"><?php echo Auth::user()->name;?> - <?php echo date("d/m/Y");?></small>
-            <input type="hidden" name="note_by_at" id="note_by_at" class="form-control" value="<?php echo Auth::user()->name;?> - <?php echo date("d/m/Y");?>" required>
-            <textarea name="notes" id="notes" class="form-control" placeholder="Notes*" style="min-height:150px;">{{ $notes }}</textarea>
+            <small style="display: block;"><?php echo Auth::user()->name;?> - <?php echo date("d-M-Y h:i A");?></small>
+            <input type="hidden" name="note_by_at" id="note_by_at" class="form-control" value="<?php echo Auth::user()->name;?> - <?php echo date("d-M-Y h:i A");?>" required>
+            <textarea name="notes" id="notes" class="form-control" placeholder="Notes*" style="min-height:150px;"></textarea>
         </div>
         <input type="hidden" name="school_id" value="{{ $sid }}">
     </div>
@@ -28,7 +28,7 @@ if (isset($item)) {
         <option value="Inactive" @if($status == 'Inactive') selected="selected" @endif>Inactive</option>
     </select>
 </div> -->
-<button type="submit" class="btn btn-primary waves-effect waves-light">Submit</button>
+<!-- <button type="submit" class="btn btn-primary waves-effect waves-light">Submit</button> -->
 <script type="text/javascript">
     jQuery(document).ready(function() {
         jQuery("#create_form,#edit_form").validate();
