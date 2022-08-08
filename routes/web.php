@@ -52,6 +52,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function(){
     Route::resource('schools', SchoolController::class);
     Route::post('schools/change_Status', [SchoolController::class, 'change_Status']);
     Route::post('schools/field_update', [SchoolController::class, 'field_update']);
+    Route::post('schools/bulk_upload', [SchoolController::class, 'bulk_upload']);
     
     
     

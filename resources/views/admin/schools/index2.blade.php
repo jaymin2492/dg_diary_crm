@@ -94,10 +94,16 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{{ url('admin/'.$urlSlug.'/') }}" id="create_form" accept-charset="UTF-8" enctype="multipart/form-data">
+                <form method="POST" action="{{ url('admin/'.$urlSlug.'/bulk_upload') }}" id="create_form" accept-charset="UTF-8" enctype="multipart/form-data">
                     @csrf
-                    <input type="file" data-plugins="dropify" data-height="300" data-max-file-size="10M" />
+                    <input type="file" name="bulk_upload" data-plugins="dropify" data-height="300" data-max-file-size="10M" />
                 </form>
+
+                <div class="form-group" style="margin-top:20px;">
+                    <p>Please download the file format and update it. <a href="{{ asset('public/import/Sample-for-import-school.xls') }}">Click here to download</a></p>
+                </div>
+
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
