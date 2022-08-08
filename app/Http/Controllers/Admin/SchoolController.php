@@ -513,7 +513,8 @@ class SchoolController extends Controller
 
                     $contract_till = trim($sheet->getCell( 'J' . $row )->getValue());
                     if(!empty($contract_till)){
-                        $contract_till = date("Y-m-d",strtotime($contract_till));
+                        $contract_till = ($contract_till - 25569) * 86400;
+                        $contract_till = gmdate("Y-m-d",$contract_till);
                     }else{
                         $contract_till = NULL;
                     }
@@ -605,7 +606,9 @@ class SchoolController extends Controller
 
                     $folow_up_date = trim($sheet->getCell( 'T' . $row )->getValue());
                     if(!empty($folow_up_date)){
-                        $folow_up_date = date("Y-m-d",strtotime(trim($folow_up_date)));
+                        $folow_up_date = ($folow_up_date - 25569) * 86400;
+                        //$folow_up_date = date("Y-m-d",strtotime(trim($folow_up_date)));
+                        $folow_up_date = gmdate("Y-m-d",$folow_up_date);
                     }else{
                         $folow_up_date = NULL;
                     }
@@ -618,6 +621,7 @@ class SchoolController extends Controller
                     }else{
                         return back()->withErrors('Invalid Closure Month at Row #'.$i)->withInput();
                     }
+                    
                     $data[] = [
                         'title' =>trim($sheet->getCell( 'A' . $row )->getValue()),
                         'school_type_id' => $schoolTypeId,
