@@ -24,10 +24,12 @@
     <link href="{{ asset('public/assets/libs/clockpicker/bootstrap-clockpicker.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('public/assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('public/assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet" type="text/css" />
-
+    <!-- Plugins css -->
+    <link href="{{ asset('public/assets/libs/dropzone/min/dropzone.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('public/assets/libs/dropify/css/dropify.min.css') }}" rel="stylesheet" type="text/css" />
 
     <!-- Plugins css -->
-    
+
 
     <!-- Bootstrap css -->
     <link href="{{ asset('public/assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
@@ -35,8 +37,8 @@
     <link href="{{ asset('public/assets/css/app.min.css') }}" rel="stylesheet" type="text/css" id="app-style" />
     <!-- icons -->
     <link href="{{ asset('public/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
-     <!-- third party css -->
-     <link href="{{ asset('public/assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet" type="text/css" />
+    <!-- third party css -->
+    <link href="{{ asset('public/assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('public/assets/libs/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('public/assets/libs/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('public/assets/libs/datatables.net-select-bs5/css//select.bootstrap5.min.css') }}" rel="stylesheet" type="text/css" />
@@ -61,7 +63,11 @@
     <script src="{{ asset('public/assets/libs/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
     <script src="{{ asset('public/assets/libs/datatables.net-keytable/js/dataTables.keyTable.min.js') }}"></script>
     <script src="{{ asset('public/assets/libs/datatables.net-select/js/dataTables.select.min.js') }}"></script>
-
+    <!-- App js -->
+    <script src="{{ asset('public/assets/libs/dropzone/min/dropzone.min.js') }}"></script>
+    <script src="{{ asset('public/assets/libs/dropify/js/dropify.min.js') }}"></script>
+    <!-- Init js-->
+    <script src="{{ asset('public/assets/js/pages/form-fileuploads.init.js') }}"></script>
 
 
 
@@ -148,7 +154,7 @@
 
 
 
-    
+
     <script src="{{ asset('public/assets/libs/mohithg-switchery/switchery.min.js') }}"></script>
     <script src="{{ asset('public/assets/libs/multiselect/js/jquery.multi-select.js') }}"></script>
     <script src="{{ asset('public/assets/libs/select2/js/select2.min.js') }}"></script>

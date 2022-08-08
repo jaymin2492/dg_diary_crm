@@ -210,8 +210,12 @@ class SchoolController extends Controller
                 //'status' => 'required'
             ]);
             $params = $request->all();
-            $params['contract_till'] = date("Y-m-d", strtotime($params['contract_till']));
-            $params['folow_up_date'] = date("Y-m-d", strtotime($params['folow_up_date']));
+            if(!empty($params['contract_till'])){
+                $params['contract_till'] = date("Y-m-d", strtotime($params['contract_till']));
+            }
+            if(!empty($params['folow_up_date'])){
+                $params['folow_up_date'] = date("Y-m-d", strtotime($params['folow_up_date']));
+            }
             $urlSlug = $this->urlSlugs;
             School::create($params);
             return redirect()->route($urlSlug . '.index')->with('success', 'Item created successfully.');
@@ -265,8 +269,12 @@ class SchoolController extends Controller
                 //'status' => 'required'
             ]);
             $params = $request->all();
-            $params['contract_till'] = date("Y-m-d", strtotime($params['contract_till']));
-            $params['folow_up_date'] = date("Y-m-d", strtotime($params['folow_up_date']));
+            if(!empty($params['contract_till'])){
+                $params['contract_till'] = date("Y-m-d", strtotime($params['contract_till']));
+            }
+            if(!empty($params['folow_up_date'])){
+                $params['folow_up_date'] = date("Y-m-d", strtotime($params['folow_up_date']));
+            }
             $urlSlug = $this->urlSlugs;
             $school->update($params);
             return redirect()->route($urlSlug . '.index')->with('success', 'Item updated successfully.');
@@ -312,23 +320,38 @@ class SchoolController extends Controller
             $request->validate([
                 'id' => 'required',
                 'key' => 'required',
-                'value' => 'required'
+                //'value' => 'required'
             ]);
             $params = $request->all();
             $id = $params['id'];
             unset($params['id']);
             $item = School::findOrFail($id);
             $newParams = array();
-            $newParams[$params['key']] = $params['value'];
+            
+            if ($params['key'] == "folow_up_date") {
+                if(!empty($params['value'])){
+                    $params['value'] = str_replace(" ","-",$params['value']);
+                    $params['value'] = str_replace(",","-",$params['value']);
+                    $newParams[$params['key']] = date("Y-m-d",strtotime($params['value']));
+                }else{
+                    $newParams[$params['key']] = NULL;
+                }
+            }else{
+                $newParams[$params['key']] = $params['value'];
+            }
             $item->update($newParams);
             if ($params['key'] == "status_id" || $params['key'] == "manager_status_id") {
                 $allStatuses = Status::where("id", $params['value'])->get(['id', 'title'])->toArray();
                 $params['value'] = $allStatuses[0]['title'];
             }
             if ($params['key'] == "folow_up_date") {
-                $params['value'] = date("d M,Y",strtotime($params['value']));
+                if(!empty($params['value'])){
+                    $params['value'] = date("d-M-y",strtotime($params['value']));
+                }
             }
-            
+            if(empty($params['value'])){
+                $params['value'] = '-';
+            }
             return response()->json(['success' => true, 'message' => 'School Updated Successfully', 'new_value' => $params['value']]);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()]);
@@ -453,21 +476,23 @@ class SchoolController extends Controller
                         $newData[$k][] = $item['sales_rep_id'];
                     }
                     $newData[$k][] = $item['title'];
+                    if(empty($item['population'])){
+                        $item['population'] = '';
+                    }
                     $newData[$k][] = $item['population'];
-
-
-
 
                     $statusHTML= '';
                     $statusHTML.= '<div class="editable_field">';
                     if(isset($fieldItems['statuses'][$item['status_id']])){
+                        $curSalesStage = $fieldItems['statuses'][$item['status_id']];
                         $statusHTML.= $fieldItems['statuses'][$item['status_id']];
                     }else{
+                        $curSalesStage = $item['status_id'];
                         $statusHTML.= $item['status_id'];
                     }
                     $statusHTML.= '</div>';
                     $statusHTML.= '<div class="editable_form">';
-                    $statusHTML.= '<select class="form-select" name="status_id" data-id="'.$item['id'].'" required><option value="">Please Select</option>';
+                    $statusHTML.= '<select class="form-select" name="status_id" data-id="'.$item['id'].'" required>';
                     foreach($fieldItems['statuses'] as $key => $value){
                         if($item['status_id'] == $key ){
                             $statusHTML.= '<option value="'.$key.'" selected="selected">'.$value.'</option>';
@@ -480,6 +505,14 @@ class SchoolController extends Controller
 
 
                     $months = array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"); 
+                    $closure_month = $item['closure_month'];
+                    if(empty($closure_month)){
+                        $closure_month = '';
+                    }
+                    if(empty($item['closure_month'])){
+                        $item['closure_month'] = '-';
+                    }
+                    $curClosureMonth = $closure_month;
                     $statusHTML= '';
                     $statusHTML.= '<div class="editable_field">';
                     $statusHTML.= $item['closure_month'];
@@ -501,23 +534,36 @@ class SchoolController extends Controller
 
                     $statusHTML= '';
                     $statusHTML.= '<div class="editable_field">';
-                    $statusHTML.= date("d M,Y",strtotime($item['folow_up_date']));
+                    if(!empty($item['folow_up_date'])){
+                        $curFollowUpDate = date("d-M-y",strtotime($item['folow_up_date']));
+                        $statusHTML.= date("d-M-y",strtotime($item['folow_up_date']));
+                    }else{
+                        $curFollowUpDate = '';
+                        $statusHTML.= '-';
+                    }
                     $statusHTML.= '</div>';
                     $statusHTML.= '<div class="editable_form">';
-                    $statusHTML.= '<input type="text" name="folow_up_date" class="form-control folow_up_date" data-id="'.$item['id'].'" placeholder="Follow-up Date*" value="'.$item['folow_up_date'].'" required>';
+                    if(!empty($item['folow_up_date'])){
+                        $curDate = date("d-M-y",strtotime($item['folow_up_date']));
+                    }else{
+                        $curDate= '-';
+                    }
+                    $statusHTML.= '<input type="text" name="folow_up_date" class="form-control folow_up_date" data-id="'.$item['id'].'" placeholder="Follow-up Date*" value="'.$curDate.'" required>';
                     $newData[$k][] = $statusHTML;
 
                     
                     $statusHTML= '';
                     $statusHTML.= '<div class="editable_field">';
                     if(isset($fieldItems['statuses'][$item['manager_status_id']])){
+                        $curManagerSalesStage = $fieldItems['statuses'][$item['manager_status_id']];
                         $statusHTML.= $fieldItems['statuses'][$item['manager_status_id']];
                     }else{
                         $statusHTML.= $item['manager_status_id'];
+                        $curManagerSalesStage = $item['manager_status_id'];
                     }
                     $statusHTML.= '</div>';
                     $statusHTML.= '<div class="editable_form">';
-                    $statusHTML.= '<select class="form-select" name="manager_status_id" data-id="'.$item['id'].'" required><option value="">Please Select</option>';
+                    $statusHTML.= '<select class="form-select" name="manager_status_id" data-id="'.$item['id'].'" required>';
                     foreach($fieldItems['statuses'] as $key => $value){
                         if($item['manager_status_id'] == $key ){
                             $statusHTML.= '<option value="'.$key.'" selected="selected">'.$value.'</option>';
@@ -544,6 +590,80 @@ class SchoolController extends Controller
                     $actionsHTML.= '</div>';
                     $newData[$k][] = '<a href="'.URL('admin/school_contacts/'.$item['id']).'" class="btn btn-sm btn-secondary"><i class="bx bxs-plus-circle"></i> <span>Contacts</span></a>&nbsp;&nbsp;<a href="'.URL('admin/school_notes/'.$item['id']).'" class="btn btn-sm btn-info"><i class="bx bxs-plus-circle"></i> <span>Notes</span></a>';
                     $newData[$k][] = $actionsHTML;
+
+
+
+
+                    if(!empty($fieldItems['schoolTypes'][$item['school_type_id']])){
+                        $newData[$k][] = $fieldItems['schoolTypes'][$item['school_type_id']];
+                    }else{
+                        $newData[$k][] = '';
+                    }
+                    if(!empty($fieldItems['schoolLevels'][$item['school_level_id']])){
+                        $newData[$k][] = $fieldItems['schoolLevels'][$item['school_level_id']];
+                    }else{
+                        $newData[$k][] = '';
+                    }
+                    if(!empty($fieldItems['countries'][$item['country_id']])){
+                        $newData[$k][] = $fieldItems['countries'][$item['country_id']];
+                    }else{
+                        $newData[$k][] = '';
+                    }
+                    if(!empty($fieldItems['areas'][$item['area_id']])){
+                        $newData[$k][] = $fieldItems['areas'][$item['area_id']];
+                    }else{
+                        $newData[$k][] = '';
+                    }
+                    if(empty($item['system'])){
+                        $item['system'] = '';
+                    }
+                    $newData[$k][] = $item['system'];
+                    if(empty($item['online_student_portal'])){
+                        $item['online_student_portal'] = '';
+                    }
+                    $newData[$k][] = $item['online_student_portal'];
+                    if(empty($item['name_of_the_system'])){
+                        $item['name_of_the_system'] = '';
+                    }
+                    $newData[$k][] = $item['name_of_the_system'];
+                    if(!empty($item['contract_till'])){
+                        $newData[$k][] = date("d-M-y",strtotime($item['contract_till']));
+                    }else{
+                        $newData[$k][] = '';
+                    }
+                    if(!empty($fieldItems['salesManagers'][$item['sales_manager_id']])){
+                        $newData[$k][] = $fieldItems['salesManagers'][$item['sales_manager_id']];
+                    }else{
+                        $newData[$k][] = '';
+                    }
+                    if(!empty($fieldItems['teleMarketingReps'][$item['telemarketing_rep_id']])){
+                        $newData[$k][] = $fieldItems['teleMarketingReps'][$item['telemarketing_rep_id']];
+                    }else{
+                        $newData[$k][] = '';
+                    }
+                    if(!empty($fieldItems['directors'][$item['director_id']])){
+                        $newData[$k][] = $fieldItems['directors'][$item['director_id']];
+                    }else{
+                        $newData[$k][] = '';
+                    }
+                    if(!empty($fieldItems['onboardingReps'][$item['onboarding_rep_id']])){
+                        $newData[$k][] = $fieldItems['onboardingReps'][$item['onboarding_rep_id']];
+                    }else{
+                        $newData[$k][] = '';
+                    }
+                    if(!empty($fieldItems['onboardingManagers'][$item['onboarding_manager_id']])){
+                        $newData[$k][] = $fieldItems['onboardingManagers'][$item['onboarding_manager_id']];
+                    }else{
+                        $newData[$k][] = '';
+                    }
+                    $newData[$k][] = $item['school_tution'];
+
+
+                    $newData[$k][] = $curSalesStage;
+                    $newData[$k][] = $curClosureMonth;
+                    $newData[$k][] = $curFollowUpDate;
+                    $newData[$k][] = $curManagerSalesStage;
+
                 }
             }
             return response()->json(['draw' => $request->draw, 'recordsTotal'=> $totalRows, 'recordsFiltered'=> $totalRows, 'data' => $newData]);

@@ -14,12 +14,12 @@ class AddNotesToSchoolsTable extends Migration
     public function up()
     {
         Schema::table('schools', function (Blueprint $table) {
-            $table->date('folow_up_date');
-            $table->unsignedBigInteger('status_id');
+            $table->date('folow_up_date')->nullable();
+            $table->unsignedBigInteger('status_id')->nullable();
             $table->foreign('status_id')->references('id')->on('statuses')->constrained()->onDelete('cascade');
-            $table->unsignedBigInteger('manager_status_id');
+            $table->unsignedBigInteger('manager_status_id')->nullable();
             $table->foreign('manager_status_id')->references('id')->on('statuses')->constrained()->onDelete('cascade');
-            $table->enum('closure_month', ["January","February","March","April","May","June","July","August","September","October","November","December"]);
+            $table->enum('closure_month', ["January","February","March","April","May","June","July","August","September","October","November","December"])->nullable();
         });
     }
 

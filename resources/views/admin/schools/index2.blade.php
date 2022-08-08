@@ -56,10 +56,28 @@
                                 <th>Manager Status</th>
                                 <th>Details</th>
                                 <th style="width: 85px;">Action</th>
+                                <th style="display: none;">School Type</th>
+                                <th style="display: none;">School Level</th>
+                                <th style="display: none;">Country</th>
+                                <th style="display: none;">Area</th>
+                                <th style="display: none;">System</th>
+                                <th style="display: none;">Online Student Portal</th>
+                                <th style="display: none;">Name of the system</th>
+                                <th style="display: none;">Contract End Date</th>
+                                <th style="display: none;">Sales Manager</th>
+                                <th style="display: none;">Telemarketing Rep</th>
+                                <th style="display: none;">Director</th>
+                                <th style="display: none;">Onboarding Rep</th>
+                                <th style="display: none;">Onboarding Manager</th>
+                                <th style="display: none;">School Tution</th>
+                                <th style="display: none;">Sales Stage</th>
+                                <th style="display: none;">Closure Month</th>
+                                <th style="display: none;">Follow-up date</th>
+                                <th style="display: none;">Manager Status</th>
                             </tr>
                         </thead>
                         <tbody>
-                            
+
                         </tbody>
                     </table>
                 </div>
@@ -68,10 +86,30 @@
         </div> <!-- end card-->
     </div>
 </div>
+<div id="standard-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="standard-modalLabel">Import {{ $title }}</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{{ url('admin/'.$urlSlug.'/') }}" id="create_form" accept-charset="UTF-8" enctype="multipart/form-data">
+                    @csrf
+                    <input type="file" data-plugins="dropify" data-height="300" data-max-file-size="10M" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" form="create_form">Import {{ $title }}</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 <script type="text/javascript">
     jQuery(document).ready(function() {
-        
-        jQuery("#products-datatable").DataTable({
+
+        var table = jQuery("#products-datatable").DataTable({
             processing: true,
             serverSide: true,
             ajax: "{{ url('admin/'.$urlSlug.'/ajax_list') }}",
@@ -88,19 +126,49 @@
             "responsive": false,
             "autoWidth": true,
             'dom': 'Bfrtip',
-            'buttons': [{
-                'extend': 'csvHtml5',
-                'text': 'Export',
-                'title': 'Export - {{ $title }}',
-                'exportOptions': {
-                    columns: [1, 2, 3]
+            'buttons': [
+                {
+                    'extend': 'csvHtml5',
+                    'text': 'Export',
+                    'title': 'Export - {{ $title }}',
+                    'exportOptions': {
+                        columns: [1, 2, 3, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27]
+                    }
+                },
+                {
+                    'text': 'Import',
+                    'action': function ( e, dt, node, config ) {
+                        jQuery("#standard-modal").modal("show");
+                    }
                 }
-            }]
+            ]
         });
-        jQuery("#products-datatable").on('xhr.dt', function(e, settings, json, xhr){
-            setTimeout(function(){
-                jQuery(".folow_up_date").flatpickr();
-            },1000);
+        jQuery('#products-datatable').DataTable().column(10).visible(false);
+        jQuery('#products-datatable').DataTable().column(11).visible(false);
+        jQuery('#products-datatable').DataTable().column(12).visible(false);
+        jQuery('#products-datatable').DataTable().column(13).visible(false);
+        jQuery('#products-datatable').DataTable().column(14).visible(false);
+        jQuery('#products-datatable').DataTable().column(15).visible(false);
+        jQuery('#products-datatable').DataTable().column(16).visible(false);
+        jQuery('#products-datatable').DataTable().column(17).visible(false);
+        jQuery('#products-datatable').DataTable().column(18).visible(false);
+        jQuery('#products-datatable').DataTable().column(19).visible(false);
+        jQuery('#products-datatable').DataTable().column(20).visible(false);
+        jQuery('#products-datatable').DataTable().column(21).visible(false);
+        jQuery('#products-datatable').DataTable().column(22).visible(false);
+        jQuery('#products-datatable').DataTable().column(23).visible(false);
+        jQuery('#products-datatable').DataTable().column(24).visible(false);
+        jQuery('#products-datatable').DataTable().column(25).visible(false);
+        jQuery('#products-datatable').DataTable().column(26).visible(false);
+        jQuery('#products-datatable').DataTable().column(27).visible(false);
+        
+        jQuery("#products-datatable").on('xhr.dt', function(e, settings, json, xhr) {
+            setTimeout(function() {
+                jQuery(".folow_up_date").flatpickr({
+                    dateFormat: "d-M-y",
+                    //altFormat: "F j, Y - h:i",
+                });
+            }, 1000);
         });
         jQuery(document).on("click", ".editable_field", function() {
             jQuery(this).next().show()
@@ -108,9 +176,9 @@
         })
         jQuery(document).on("change", ".editable_form select, .editable_form input", function() {
             var curId = jQuery(this).attr("data-id");
-            if (jQuery(this).val() == "") {
+            /* if (jQuery(this).val() == "") {
                 return false;
-            }
+            } */
             var key = jQuery(this).attr("name");
             var value = jQuery(this).val();
             ajaxUpdate(jQuery(this), key, curId, value);

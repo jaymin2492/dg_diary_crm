@@ -97,13 +97,13 @@ if (isset($item)) {
         </div>
 
         <div class="mb-3">
-            <label for="population" class="form-label">Population(In Lacs)*</label>
-            <input type="number" name="population" id="population" class="form-control" placeholder="Population*" value="{{ $population }}" required>
+            <label for="population" class="form-label">Population(In Lacs)</label>
+            <input type="number" name="population" id="population" class="form-control" placeholder="Population" value="{{ $population }}">
         </div>
 
         <div class="mb-3">
-            <label for="system" class="form-label">System*</label>
-            <select class="form-select" name="system" id="system" required>
+            <label for="system" class="form-label">System</label>
+            <select class="form-select" name="system" id="system">
                 <option value="">Please Select</option>
                 <option value="Yes" @if($system=='Yes' ) selected="selected" @endif>Yes</option>
                 <option value="No" @if($system=='No' ) selected="selected" @endif>No</option>
@@ -111,8 +111,8 @@ if (isset($item)) {
         </div>
 
         <div class="mb-3">
-            <label for="online_student_portal" class="form-label">Online Student Portal*</label>
-            <select class="form-select" name="online_student_portal" id="online_student_portal" required>
+            <label for="online_student_portal" class="form-label">Online Student Portal</label>
+            <select class="form-select" name="online_student_portal" id="online_student_portal">
                 <option value="">Please Select</option>
                 <option value="Yes" @if($online_student_portal=='Yes' ) selected="selected" @endif>Yes</option>
                 <option value="No" @if($online_student_portal=='No' ) selected="selected" @endif>No</option>
@@ -120,19 +120,19 @@ if (isset($item)) {
         </div>
 
         <div class="mb-3">
-            <label for="title" class="form-label">Name of the system*</label>
-            <input type="text" name="name_of_the_system" id="name_of_the_system" class="form-control" placeholder="Name of the system*" value="{{ $name_of_the_system }}" required>
+            <label for="title" class="form-label">Name of the system</label>
+            <input type="text" name="name_of_the_system" id="name_of_the_system" class="form-control" placeholder="Name of the system*" value="{{ $name_of_the_system }}">
         </div>
 
         <div class="mb-3">
-            <label for="folow_up_date" class="form-label">Follow-up Date*</label>
-            <input type="text" name="folow_up_date" id="folow_up_date" class="form-control" placeholder="Follow-up Date*" value="{{ $folow_up_date }}" required>
+            <label for="folow_up_date" class="form-label">Follow-up Date</label>
+            <input type="text" name="folow_up_date" id="folow_up_date" class="form-control" placeholder="Follow-up Date" value="{{ $folow_up_date }}">
         </div>
 
         <?php $months = array("January","February","March","April","May","June","July","August","September","October","November","December");?>
         <div class="mb-3">
-            <label for="closure_month" class="form-label">Closure Month*</label>
-            <select class="form-select" name="closure_month" id="closure_month" required>
+            <label for="closure_month" class="form-label">Closure Month</label>
+            <select class="form-select" name="closure_month" id="closure_month">
                 <option value="">Please Select</option>
                 @foreach($months as $value)
                 <option value="{{ $value }}" @if($closure_month==$value ) selected="selected" @endif>{{ $value }}</option>
@@ -145,8 +145,8 @@ if (isset($item)) {
     <div class="col-md-6">
         
         <div class="mb-3">
-            <label for="title" class="form-label">Contract End Date*</label>
-            <input type="text" name="contract_till" id="contract_till" class="form-control" placeholder="Contract End Date*" value="{{ $contract_till }}" required>
+            <label for="title" class="form-label">Contract End Date</label>
+            <input type="text" name="contract_till" id="contract_till" class="form-control" placeholder="Contract End Date" value="{{ $contract_till }}">
         </div>
         <div class="mb-3">
             <label for="sales_rep_id" class="form-label">Sales Rep*</label>
@@ -158,8 +158,8 @@ if (isset($item)) {
             </select>
         </div>
         <div class="mb-3">
-            <label for="sales_manager_id" class="form-label">Sales Manager*</label>
-            <select class="form-select" name="sales_manager_id" id="sales_manager_id" required>
+            <label for="sales_manager_id" class="form-label">Sales Manager</label>
+            <select class="form-select" name="sales_manager_id" id="sales_manager_id">
                 <option value="">Please Select</option>
                 @foreach($fieldItems['salesManagers'] as $key => $value)
                 <option value="{{ $key }}" @if($sales_manager_id==$key ) selected="selected" @endif>{{ $value }}</option>
@@ -167,8 +167,8 @@ if (isset($item)) {
             </select>
         </div>
         <div class="mb-3">
-            <label for="telemarketing_rep_id" class="form-label">TeleMarketing Rep*</label>
-            <select class="form-select" name="telemarketing_rep_id" id="telemarketing_rep_id" required>
+            <label for="telemarketing_rep_id" class="form-label">TeleMarketing Rep</label>
+            <select class="form-select" name="telemarketing_rep_id" id="telemarketing_rep_id">
                 <option value="">Please Select</option>
                 @foreach($fieldItems['teleMarketingReps'] as $key => $value)
                 <option value="{{ $key }}" @if($telemarketing_rep_id==$key ) selected="selected" @endif>{{ $value }}</option>
@@ -176,8 +176,8 @@ if (isset($item)) {
             </select>
         </div>
         <div class="mb-3">
-            <label for="director_id" class="form-label">Director*</label>
-            <select class="form-select" name="director_id" id="director_id" required>
+            <label for="director_id" class="form-label">Director</label>
+            <select class="form-select" name="director_id" id="director_id">
                 <option value="">Please Select</option>
                 @foreach($fieldItems['directors'] as $key => $value)
                 <option value="{{ $key }}" @if($director_id==$key ) selected="selected" @endif>{{ $value }}</option>
@@ -185,8 +185,8 @@ if (isset($item)) {
             </select>
         </div>
         <div class="mb-3">
-            <label for="onboarding_rep_id" class="form-label">Onboarding Rep*</label>
-            <select class="form-select" name="onboarding_rep_id" id="onboarding_rep_id" required>
+            <label for="onboarding_rep_id" class="form-label">Onboarding Rep</label>
+            <select class="form-select" name="onboarding_rep_id" id="onboarding_rep_id">
                 <option value="">Please Select</option>
                 @foreach($fieldItems['onboardingReps'] as $key => $value)
                 <option value="{{ $key }}" @if($onboarding_rep_id==$key ) selected="selected" @endif>{{ $value }}</option>
@@ -194,8 +194,8 @@ if (isset($item)) {
             </select>
         </div>
         <div class="mb-3">
-            <label for="onboarding_manager_id" class="form-label">Onboarding Manager*</label>
-            <select class="form-select" name="onboarding_manager_id" id="onboarding_manager_id" required>
+            <label for="onboarding_manager_id" class="form-label">Onboarding Manager</label>
+            <select class="form-select" name="onboarding_manager_id" id="onboarding_manager_id">
                 <option value="">Please Select</option>
                 @foreach($fieldItems['onboardingManagers'] as $key => $value)
                 <option value="{{ $key }}" @if($onboarding_manager_id==$key ) selected="selected" @endif>{{ $value }}</option>
@@ -203,8 +203,8 @@ if (isset($item)) {
             </select>
         </div>
         <div class="mb-3">
-            <label for="school_tution" class="form-label">School Tution*</label>
-            <select class="form-select" name="school_tution" id="school_tution" required>
+            <label for="school_tution" class="form-label">School Tution</label>
+            <select class="form-select" name="school_tution" id="school_tution">
                 <option value="">Please Select</option>
                 <option value="Free" @if($school_tution=='Free' ) selected="selected" @endif>Free</option>
                 <option value="Paid" @if($school_tution=='Paid' ) selected="selected" @endif>Paid</option>
@@ -212,8 +212,8 @@ if (isset($item)) {
         </div>
         
         <div class="mb-3">
-            <label for="status_id" class="form-label">Current Status*</label>
-            <select class="form-select" name="status_id" id="status_id" required>
+            <label for="status_id" class="form-label">Current Status</label>
+            <select class="form-select" name="status_id" id="status_id">
 <!--                 <option value="">Please Select</option>
  -->                @foreach($fieldItems['statuses'] as $key => $value)
                 <option value="{{ $key }}" @if($status_id==$key ) selected="selected" @endif>{{ $value }}</option>
@@ -221,8 +221,8 @@ if (isset($item)) {
             </select>
         </div>
         <div class="mb-3">
-            <label for="manager_status_id" class="form-label">Current Status By Manager*</label>
-            <select class="form-select" name="manager_status_id" id="manager_status_id" required>
+            <label for="manager_status_id" class="form-label">Current Status By Manager</label>
+            <select class="form-select" name="manager_status_id" id="manager_status_id">
 <!--                 <option value="">Please Select</option>
  -->                @foreach($fieldItems['statuses'] as $key => $value)
                 <option value="{{ $key }}" @if($manager_status_id==$key ) selected="selected" @endif>{{ $value }}</option>
