@@ -621,7 +621,7 @@ class SchoolController extends Controller
                     }else{
                         return back()->withErrors('Invalid Closure Month at Row #'.$i)->withInput();
                     }
-                    
+                    $data = array();
                     $data[] = [
                         'title' =>trim($sheet->getCell( 'A' . $row )->getValue()),
                         'school_type_id' => $schoolTypeId,
@@ -645,13 +645,10 @@ class SchoolController extends Controller
                         'folow_up_date' =>$folow_up_date,
                         'closure_month' =>$closure_month
                     ];
+                    School::insert($data);
                 }
             }
-            if(!empty($data)){
-                School::insert($data);
-                return redirect()->route($urlSlug . '.index')->with('success', 'Bulk Import successfully done.');
-            }
-            return back()->withErrors('No valid Rows found to import')->withInput();
+            return redirect()->route($urlSlug . '.index')->with('success', 'Bulk Import successfully done.');
         } catch (\Exception $e) {
             return back()->withErrors($e->getMessage())->withInput();
         }
