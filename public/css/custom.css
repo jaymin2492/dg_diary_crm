@@ -27,6 +27,4 @@ table{
 .buttons-html5 {
     margin-right: 10px !important;
 }
-.card-widgets i {
-    display: none;
-}
+.form-control, .form-select, .form-control:focus, .form-select:focus{ color: #000;}

@@ -656,6 +656,328 @@ class SchoolController extends Controller
     }
 
 
+    public function bulk_upload_new(Request $request)
+    {
+        try {
+            $request->validate([
+                'bulk_upload' => 'required',
+                //'value' => 'required'
+            ]);
+            $params = $request->all();
+            $urlSlug = $this->urlSlugs;
+            $data = array();
+            $the_file = $request->file('bulk_upload');
+            $spreadsheet = IOFactory::load($the_file->getRealPath());
+            $sheet        = $spreadsheet->getActiveSheet();
+            $row_limit    = $sheet->getHighestDataRow();
+            $column_limit = $sheet->getHighestDataColumn();
+            $row_range    = range( 1, $row_limit );
+            $column_range = range( 'F', $column_limit );
+            if($column_limit !== "U"){
+                return back()->withErrors('Invalid File Format')->withInput();
+            }
+            $errorMessages = array();
+            $startcount = 1;
+            
+            foreach ( $row_range as $i=>$row ) {
+                if($i == 0){
+                    $arrayKeys = array();
+                    $arrayKeys[] = $sheet->getCell( 'A' . $row )->getValue();
+                    $arrayKeys[] = $sheet->getCell( 'B' . $row )->getValue();
+                    $arrayKeys[] = $sheet->getCell( 'C' . $row )->getValue();
+                    $arrayKeys[] = $sheet->getCell( 'D' . $row )->getValue();
+                    $arrayKeys[] = $sheet->getCell( 'E' . $row )->getValue();
+                    $arrayKeys[] = $sheet->getCell( 'F' . $row )->getValue();
+                    $arrayKeys[] = $sheet->getCell( 'G' . $row )->getValue();
+                    $arrayKeys[] = $sheet->getCell( 'H' . $row )->getValue();
+                    $arrayKeys[] = $sheet->getCell( 'I' . $row )->getValue();
+                    $arrayKeys[] = $sheet->getCell( 'J' . $row )->getValue();
+                    $arrayKeys[] = $sheet->getCell( 'K' . $row )->getValue();
+                    $arrayKeys[] = $sheet->getCell( 'L' . $row )->getValue();
+                    $arrayKeys[] = $sheet->getCell( 'M' . $row )->getValue();
+                    $arrayKeys[] = $sheet->getCell( 'N' . $row )->getValue();
+                    $arrayKeys[] = $sheet->getCell( 'O' . $row )->getValue();
+                    $arrayKeys[] = $sheet->getCell( 'P' . $row )->getValue();
+                    $arrayKeys[] = $sheet->getCell( 'Q' . $row )->getValue();
+                    $arrayKeys[] = $sheet->getCell( 'R' . $row )->getValue();
+                    $arrayKeys[] = $sheet->getCell( 'S' . $row )->getValue();
+                    $arrayKeys[] = $sheet->getCell( 'T' . $row )->getValue();
+                    $arrayKeys[] = $sheet->getCell( 'U' . $row )->getValue();
+                    $arrayKeysFiltered = array_filter($arrayKeys);
+                    if(count($arrayKeys) > 21 || count($arrayKeys) < 21){
+                        return back()->withErrors('Invalid File Format')->withInput();
+                    }elseif(count($arrayKeysFiltered) !== count($arrayKeys)){
+                        return back()->withErrors('Invalid File Format')->withInput();
+                    }elseif(trim($arrayKeys[0]) !== "Name *"){
+                        return back()->withErrors('Invalid File Format')->withInput();
+                    }elseif(trim($arrayKeys[1]) !== "School Type *"){
+                        return back()->withErrors('Invalid File Format')->withInput();
+                    }elseif(trim($arrayKeys[2]) !== "School Level *"){
+                        return back()->withErrors('Invalid File Format')->withInput();
+                    }elseif(trim($arrayKeys[3]) !== "Country *"){
+                        return back()->withErrors('Invalid File Format')->withInput();
+                    }elseif(trim($arrayKeys[4]) !== "Area *"){
+                        return back()->withErrors('Invalid File Format')->withInput();
+                    }elseif(trim($arrayKeys[5]) !== "Population"){
+                        return back()->withErrors('Invalid File Format')->withInput();
+                    }elseif(trim($arrayKeys[6]) !== "System"){
+                        return back()->withErrors('Invalid File Format')->withInput();
+                    }elseif(trim($arrayKeys[7]) !== "Online Student Portal"){
+                        return back()->withErrors('Invalid File Format')->withInput();
+                    }elseif(trim($arrayKeys[8]) !== "Name Of system"){
+                        return back()->withErrors('Invalid File Format')->withInput();
+                    }elseif(trim($arrayKeys[9]) !== "Contract Date"){
+                        return back()->withErrors('Invalid File Format')->withInput();
+                    }elseif(trim($arrayKeys[10]) !== "Sales Rep *"){
+                        return back()->withErrors('Invalid File Format')->withInput();
+                    }elseif(trim($arrayKeys[11]) !== "Sales Manager"){
+                        return back()->withErrors('Invalid File Format')->withInput();
+                    }elseif(trim($arrayKeys[12]) !== "Telemarketing Rep"){
+                        return back()->withErrors('Invalid File Format')->withInput();
+                    }elseif(trim($arrayKeys[13]) !== "Director"){
+                        return back()->withErrors('Invalid File Format')->withInput();
+                    }elseif(trim($arrayKeys[14]) !== "Onboarding Rep"){
+                        return back()->withErrors('Invalid File Format')->withInput();
+                    }elseif(trim($arrayKeys[15]) !== "Onboarding Manager"){
+                        return back()->withErrors('Invalid File Format')->withInput();
+                    }elseif(trim($arrayKeys[16]) !== "School Tution"){
+                        return back()->withErrors('Invalid File Format')->withInput();
+                    }elseif(trim($arrayKeys[17]) !== "Current Status"){
+                        return back()->withErrors('Invalid File Format')->withInput();
+                    }elseif(trim($arrayKeys[18]) !== "Current Status by manager"){
+                        return back()->withErrors('Invalid File Format')->withInput();
+                    }elseif(trim($arrayKeys[19]) !== "Follow Up Date"){
+                        return back()->withErrors('Invalid File Format')->withInput();
+                    }elseif(trim($arrayKeys[20]) !== "Closure Month"){
+                        return back()->withErrors('Invalid File Format')->withInput();
+                    }
+                }else{
+                   /*  $fieldItems = array();
+                    $fieldItems['areas'] = $areas;
+                    $fieldItems['schoolTypes'] = $schoolTypes;
+                    $fieldItems['schoolLevels'] = $schoolLevels;
+                    $fieldItems['countries'] = $countries;
+                    $fieldItems['salesReps'] = $salesReps;
+                    $fieldItems['salesManagers'] = $salesManagers;
+                    $fieldItems['teleMarketingReps'] = $teleMarketingReps;
+                    $fieldItems['directors'] = $directors;
+                    $fieldItems['onboardingReps'] = $onboardingReps;
+                    $fieldItems['onboardingManagers'] = $onboardingManagers;
+                    $fieldItems['statuses'] = $statuses; */
+                    $fieldItems = $this->fieldItems;
+                    $schoolType = $sheet->getCell( 'B' . $row )->getValue();
+                    $schoolTypeId = array_search(trim($schoolType), $fieldItems['schoolTypes']);
+                    if(empty($schoolTypeId)){
+                        $errorMessages[] = 'Invalid School Type at Row #'.$i;
+                        //return back()->withErrors('Invalid School Type at Row #'.$i)->withInput();
+                    }
+
+                    $schoolLevel = $sheet->getCell( 'C' . $row )->getValue();
+                    $schoolLevelId = array_search(trim($schoolLevel), $fieldItems['schoolLevels']);
+                    if(empty($schoolLevelId)){
+                        $errorMessages[] = 'Invalid School Level at Row #'.$i;
+                        //return back()->withErrors('Invalid School Level at Row #'.$i)->withInput();
+                    }
+
+                    $country = $sheet->getCell( 'D' . $row )->getValue();
+                    $countryId = array_search(trim($country), $fieldItems['countries']);
+                    if(empty($countryId)){
+                        $errorMessages[] = 'Invalid Country at Row #'.$i;
+                        //return back()->withErrors('Invalid Country at Row #'.$i)->withInput();
+                    }
+
+                    $area = $sheet->getCell( 'E' . $row )->getValue();
+                    $areaId = array_search(trim($area), $fieldItems['areas']);
+                    if(empty($areaId)){
+                        $errorMessages[] = 'Invalid Area at Row #'.$i;
+                        //return back()->withErrors('Invalid Area at Row #'.$i)->withInput();
+                    }
+
+                    $system = $sheet->getCell( 'G' . $row )->getValue();
+                    if(!empty($system) && ($system == "Yes" || $system == "No")){
+
+                    }elseif(empty($system)){
+                        $system = NULL;
+                    }else{
+                        $errorMessages[] = 'Invalid System at Row #'.$i;
+                        //return back()->withErrors('Invalid System at Row #'.$i)->withInput();
+                    }
+
+                    $online_student_portal = trim($sheet->getCell( 'H' . $row )->getValue());
+                    if(!empty($online_student_portal) && ($online_student_portal == "Yes" || $online_student_portal == "No")){
+
+                    }elseif(empty($online_student_portal)){
+                        $online_student_portal = NULL;
+                    }else{
+                        $errorMessages[] = 'Invalid Online Student Portal at Row #'.$i;
+                        //return back()->withErrors('Invalid Online Student Portal at Row #'.$i)->withInput();
+                    }
+
+                    $contract_till = trim($sheet->getCell( 'J' . $row )->getValue());
+                    if(!empty($contract_till)){
+                        if(is_numeric($contract_till)){
+                            $contract_till = ($contract_till - 25569) * 86400;
+                            $contract_till = gmdate("Y-m-d",$contract_till);
+                        }else{
+                            $errorMessages[] = 'Invalid Contract Till Date at Row #'.$i;
+                        }
+                    }else{
+                        $contract_till = NULL;
+                    }
+
+                    $salesRep = $sheet->getCell( 'K' . $row )->getValue();
+                    $salesRepId = array_search(trim($salesRep), $fieldItems['salesReps']);
+                    if(empty($salesRepId)){
+                        $errorMessages[] = 'Invalid Sales Rep at Row #'.$i;
+                        //return back()->withErrors('Invalid Sales Rep at Row #'.$i)->withInput();
+                    }
+
+                    $salesManager = $sheet->getCell( 'L' . $row )->getValue();
+                    if(!empty($salesManager)){
+                        $salesManagerId = array_search(trim($salesManager), $fieldItems['salesManagers']);
+                        if(empty($salesManagerId)){
+                            $errorMessages[] = 'Invalid Sales Manager at Row #'.$i;
+                            //return back()->withErrors('Invalid Sales Manager at Row #'.$i)->withInput();
+                        }
+                    }else{
+                        $salesManagerId = NULL;
+                    }
+
+                    $teleMarketingRep = $sheet->getCell( 'M' . $row )->getValue();
+                    if(!empty($teleMarketingRep)){
+                        $teleMarketingRepId = array_search(trim($teleMarketingRep), $fieldItems['teleMarketingReps']);
+                        if(empty($teleMarketingRepId)){
+                            $errorMessages[] = 'Invalid Telemarketing Rep at Row #'.$i;
+                            //return back()->withErrors('Invalid Telemarketing Rep at Row #'.$i)->withInput();
+                        }
+                    }else{
+                        $teleMarketingRepId = NULL;
+                    }
+
+                    $director = $sheet->getCell( 'N' . $row )->getValue();
+                    if(!empty($director)){
+                        $directorId = array_search(trim($director), $fieldItems['directors']);
+                        if(empty($directorId)){
+                            $errorMessages[] = 'Invalid Director at Row #'.$i;
+                            //return back()->withErrors('Invalid Director at Row #'.$i)->withInput();
+                        }
+                    }else{
+                        $directorId = NULL;
+                    }
+
+                    $onboardingRep = $sheet->getCell( 'O' . $row )->getValue();
+                    if(!empty($onboardingRep)){
+                        $onboardingRepId = array_search(trim($onboardingRep), $fieldItems['onboardingReps']);
+                        if(empty($onboardingRepId)){
+                            $errorMessages[] = 'Invalid Onboarding Rep at Row #'.$i;
+                            //return back()->withErrors('Invalid Onboarding Rep at Row #'.$i)->withInput();
+                        }
+                    }else{
+                        $onboardingRepId = NULL;
+                    }
+
+                    $onboardingManager = $sheet->getCell( 'P' . $row )->getValue();
+                    if(!empty($onboardingManager)){
+                        $onboardingManagerId = array_search(trim($onboardingManager), $fieldItems['onboardingManagers']);
+                        if(empty($onboardingManagerId)){
+                            $errorMessages[] = 'Invalid Onboarding Manager at Row #'.$i;
+                            //return back()->withErrors('Invalid Onboarding Manager at Row #'.$i)->withInput();
+                        }
+                    }else{
+                        $onboardingManagerId = NULL;
+                    }
+
+                    $school_tution = trim($sheet->getCell( 'Q' . $row )->getValue());
+                    if(!empty($school_tution) && ($school_tution == "Free" || $school_tution == "Paid")){
+
+                    }elseif(empty($school_tution)){
+                        $school_tution = NULL;
+                    }else{
+                        $errorMessages[] = 'Invalid School Tution at Row #'.$i;
+                        //return back()->withErrors('Invalid School Tution at Row #'.$i)->withInput();
+                    }
+
+                    $status = $sheet->getCell( 'R' . $row )->getValue();
+                    if(!empty($status)){
+                        $statusId = array_search(trim($status), $fieldItems['statuses']);
+                        if(empty($statusId)){
+                            $errorMessages[] = 'Invalid Stage at Row #'.$i;
+                            //return back()->withErrors('Invalid Stage at Row #'.$i)->withInput();
+                        }
+                    }else{
+                        $statusId = NULL;
+                    }
+
+                    $managerStatus = $sheet->getCell( 'S' . $row )->getValue();
+                    if(!empty($managerStatus)){
+                        $managerStatusId = array_search(trim($managerStatus), $fieldItems['statuses']);
+                        if(empty($managerStatusId)){
+                            $errorMessages[] = 'Invalid Manager Status at Row #'.$i;
+                            //return back()->withErrors('Invalid Manager Status at Row #'.$i)->withInput();
+                        }
+                    }else{
+                        $managerStatusId = NULL;
+                    }
+
+                    $folow_up_date = trim($sheet->getCell( 'T' . $row )->getValue());
+                    if(!empty($folow_up_date)){
+                        if(is_numeric($folow_up_date)){
+                            $folow_up_date = ($folow_up_date - 25569) * 86400;
+                            $folow_up_date = gmdate("Y-m-d",$folow_up_date);
+                        }else{
+                            $errorMessages[] = 'Invalid Contract Till Date at Row #'.$i;
+                        }
+                    }else{
+                        $folow_up_date = NULL;
+                    }
+
+                    $closure_month = trim($sheet->getCell( 'U' . $row )->getValue());
+                    if(!empty($closure_month) && ($closure_month == "January" || $closure_month == "February" || $closure_month == "March" || $closure_month == "April" || $closure_month == "May" || $closure_month == "June" || $closure_month == "July" || $closure_month == "August" || $closure_month == "September" || $closure_month == "October" || $closure_month == "November" || $closure_month == "December")){
+
+                    }elseif(empty($closure_month)){
+                        $closure_month = NULL;
+                    }else{
+                        $errorMessages[] = 'Invalid Closure Month at Row #'.$i;
+                        //return back()->withErrors('Invalid Closure Month at Row #'.$i)->withInput();
+                    }
+                    
+                    $data[] = [
+                        'title' =>trim($sheet->getCell( 'A' . $row )->getValue()),
+                        'school_type_id' => $schoolTypeId,
+                        'school_level_id' => $schoolLevelId,
+                        'country_id' => $countryId,
+                        'area_id' => $areaId,
+                        'population' =>trim($sheet->getCell( 'F' . $row )->getValue()),
+                        'system' =>$system,
+                        'online_student_portal' =>$online_student_portal,
+                        'name_of_the_system' =>trim($sheet->getCell( 'I' . $row )->getValue()),
+                        'contract_till' =>$contract_till,
+                        'sales_rep_id' =>$salesRepId,
+                        'sales_manager_id' =>$salesManagerId,
+                        'telemarketing_rep_id' =>$teleMarketingRepId,
+                        'director_id' =>$directorId,
+                        'onboarding_rep_id' =>$onboardingRepId,
+                        'onboarding_manager_id' =>$onboardingManagerId,
+                        'school_tution' =>$school_tution,
+                        'status_id' =>$statusId,
+                        'manager_status_id' =>$managerStatusId,
+                        'folow_up_date' =>$folow_up_date,
+                        'closure_month' =>$closure_month
+                    ];
+                    
+                }
+            }
+            if(!empty($errorMessages)){
+                return back()->withErrors($errorMessages)->withInput();
+            }
+            School::insert($data);
+            return redirect()->route($urlSlug . '.index')->with('success', 'Bulk Import successfully done.');
+        } catch (\Exception $e) {
+            return back()->withErrors($e->getMessage())->withInput();
+        }
+    }
+
+
     public function ajax_list(Request $request)
     {
         try {
