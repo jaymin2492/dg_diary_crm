@@ -17,6 +17,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Reader\Exception;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use DB;
 
 class SchoolController extends Controller
 {
@@ -684,21 +685,25 @@ class SchoolController extends Controller
 
             $orderKey = "created_at";
             $order = 'desc';
-            if(isset($params['order'][0]['column']) && !empty($params['order'][0]['column'])){
+            if(isset($params['order'][0]) && !empty($params['order'][0])){
                 if($params['order'][0]['column'] == "0"){
                     $orderKey = "id";
                 }elseif($params['order'][0]['column'] == "2"){
                     $orderKey = "title";
                 }elseif($params['order'][0]['column'] == "3"){
                     $orderKey = "population";
+                }elseif($params['order'][0]['column'] == "4"){
+                    $orderKey = "status_id";
                 }elseif($params['order'][0]['column'] == "5"){
                     $orderKey = "closure_month";
                 }elseif($params['order'][0]['column'] == "6"){
                     $orderKey = "folow_up_date";
+                }elseif($params['order'][0]['column'] == "7"){
+                    $orderKey = "manager_status_id";
                 }
                 $order = $params['order'][0]['dir'];
             }
-            
+
             
             if ($curUserRole == "Superadmin") {
                 if(!empty($searchValue)){
@@ -713,7 +718,9 @@ class SchoolController extends Controller
                         if(!empty($matchingStatuses)){
                             $q->orWhereIn('status_id',$matchingStatuses)->orWhereIn('manager_status_id',$matchingStatuses);
                         }
-                    })->orderBy($orderKey, $order);
+                    });
+                    
+                    $items = $items->orderBy($orderKey, $order);
                 }else{
                     $items = School::orderBy($orderKey, $order);
                 }
@@ -744,10 +751,25 @@ class SchoolController extends Controller
                             $q->orWhereIn('status_id',$matchingStatuses)->orWhereIn('manager_status_id',$matchingStatuses);
                         }
                     })
-                    ->where($keyCheck, $curUser->currentUSerRoleId())
-                    ->orderBy($orderKey, $order);
+                    ->where($keyCheck, $curUser->currentUSerRoleId());
+                    
+                    $items = $items->orderBy($orderKey, $order);
                 }else{
-                    $items = School::where($keyCheck, $curUser->currentUSerRoleId())->orderBy($orderKey, $order);
+                    $items = School::where($keyCheck, $curUser->currentUSerRoleId());
+                    if($orderKey == "status_id" || $orderKey == "manager_status_id"){
+                        $statuses = $fieldItems['statuses'];
+                        asort($statuses);
+                        if($order == "desc"){
+                            $keys = array_reverse(array_keys($statuses));
+                            $reversed_values = array_reverse(array_values($statuses), true);
+                            $statuses = array_combine($keys, $reversed_values);
+                        }
+                        $rawOrder = DB::raw(sprintf('FIELD('.$orderKey.', %s)', implode(',', array_keys($statuses))));
+                        $items = $items->orderByRaw($rawOrder);
+                    }else{
+                        $items = $items->orderBy($orderKey, $order);
+                    }
+                    
                 }
             }
 

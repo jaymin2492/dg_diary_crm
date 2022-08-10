@@ -50,6 +50,7 @@
                                         <label class="form-check-label" for="customCheck1">&nbsp;</label>
                                     </div>
                                 </th> -->
+                                <th>ID</th>
                                 <th>Title</th>
                                 <th>Description</th>
                                 <th>Status</th>
@@ -68,6 +69,7 @@
                                     </div>
                                     @endif
                                 </td> -->
+                                <td>{{ $item->id }}</td>
                                 <td>{{ $item->title }}</td>
                                 <td>{{ $item->description }}</td>
                                 <td>
