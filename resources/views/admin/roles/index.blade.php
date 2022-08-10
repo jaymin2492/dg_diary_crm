@@ -44,12 +44,12 @@
                     <table class="table table-centered table-nowrap table-striped" id="products-datatable">
                         <thead>
                             <tr>
-                                <th style="width: 20px;">
+                                <!-- <th style="width: 20px;">
                                     <div class="form-check">
                                         <input type="checkbox" class="form-check-input" id="customCheck1">
                                         <label class="form-check-label" for="customCheck1">&nbsp;</label>
                                     </div>
-                                </th>
+                                </th> -->
                                 <th>Title</th>
                                 <th>Description</th>
                                 <th>Status</th>
@@ -59,7 +59,7 @@
                         <tbody>
                             @foreach ($items as $item)
                             <tr>
-                                <td>
+                                <!-- <td>
                                     @if ($item->is_default == '1')
                                     @else
                                     <div class="form-check">
@@ -67,7 +67,7 @@
                                         <label class="form-check-label" for="customCheck2">&nbsp;</label>
                                     </div>
                                     @endif
-                                </td>
+                                </td> -->
                                 <td>{{ $item->title }}</td>
                                 <td>{{ $item->description }}</td>
                                 <td>
