@@ -22,8 +22,8 @@ if (isset($item)) {
             <input type="text" name="name" id="name" class="form-control" placeholder="Name*" value="{{ $name }}" required>
         </div>
         <div class="mb-3">
-            <label for="department" class="form-label">Department*</label>
-            <input type="text" name="department" id="department" class="form-control" placeholder="Department*" value="{{ $department }}" required>
+            <label for="department" class="form-label">Department</label>
+            <input type="text" name="department" id="department" class="form-control" placeholder="Department" value="{{ $department }}">
         </div>
         <div class="mb-3">
             <label for="title" class="form-label">Title*</label>

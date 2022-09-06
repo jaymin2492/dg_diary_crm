@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\School;
 use App\Models\SchoolType;
 use App\Models\SchoolLevel;
+use App\Models\SchoolContact;
 use App\Models\Area;
 use App\Models\Country;
 use App\Models\Role;
@@ -160,7 +161,7 @@ class SchoolController extends Controller
         $curUser = Auth::user();
         $curUserRole = $curUser->currentRole();
         if ($curUserRole == "Superadmin") {
-            $items = School::orderBy('created_at', 'desc')->get();
+            $items = School::orderBy('id', 'desc')->get();
         } else {
             if ($curUserRole == "Sales Rep") {
                 $keyCheck = "sales_rep_id";
@@ -175,7 +176,7 @@ class SchoolController extends Controller
             } elseif ($curUserRole == "Onboarding Manager") {
                 $keyCheck = "onboarding_manager_id";
             }
-            $items = School::where($keyCheck, $curUser->currentUSerRoleId())->orderBy('created_at', 'desc')->get();
+            $items = School::where($keyCheck, $curUser->currentUSerRoleId())->orderBy('id', 'desc')->get();
         }
         $fieldItems = $this->fieldItems;
         $urlSlug = $this->urlSlugs;
@@ -665,7 +666,7 @@ class SchoolController extends Controller
             ]);
             $params = $request->all();
             $urlSlug = $this->urlSlugs;
-            $data = array();
+            $data = $contactData = array();
             $the_file = $request->file('bulk_upload');
             $spreadsheet = IOFactory::load($the_file->getRealPath());
             $sheet        = $spreadsheet->getActiveSheet();
@@ -673,11 +674,12 @@ class SchoolController extends Controller
             $column_limit = $sheet->getHighestDataColumn();
             $row_range    = range( 1, $row_limit );
             $column_range = range( 'F', $column_limit );
-            if($column_limit !== "U"){
+            if($column_limit !== "Y"){
                 return back()->withErrors('Invalid File Format')->withInput();
             }
             $errorMessages = array();
             $startcount = 1;
+
             
             foreach ( $row_range as $i=>$row ) {
                 if($i == 0){
@@ -703,8 +705,14 @@ class SchoolController extends Controller
                     $arrayKeys[] = $sheet->getCell( 'S' . $row )->getValue();
                     $arrayKeys[] = $sheet->getCell( 'T' . $row )->getValue();
                     $arrayKeys[] = $sheet->getCell( 'U' . $row )->getValue();
+
+                    $arrayKeys[] = $sheet->getCell( 'V' . $row )->getValue();
+                    $arrayKeys[] = $sheet->getCell( 'W' . $row )->getValue();
+                    $arrayKeys[] = $sheet->getCell( 'X' . $row )->getValue();
+                    $arrayKeys[] = $sheet->getCell( 'Y' . $row )->getValue();
+
                     $arrayKeysFiltered = array_filter($arrayKeys);
-                    if(count($arrayKeys) > 21 || count($arrayKeys) < 21){
+                    if(count($arrayKeys) > 25 || count($arrayKeys) < 25){
                         return back()->withErrors('Invalid File Format')->withInput();
                     }elseif(count($arrayKeysFiltered) !== count($arrayKeys)){
                         return back()->withErrors('Invalid File Format')->withInput();
@@ -749,6 +757,14 @@ class SchoolController extends Controller
                     }elseif(trim($arrayKeys[19]) !== "Follow Up Date"){
                         return back()->withErrors('Invalid File Format')->withInput();
                     }elseif(trim($arrayKeys[20]) !== "Closure Month"){
+                        return back()->withErrors('Invalid File Format')->withInput();
+                    }elseif(trim($arrayKeys[21]) !== "Contact Name*"){
+                        return back()->withErrors('Invalid File Format')->withInput();
+                    }elseif(trim($arrayKeys[22]) !== "Contact Title*"){
+                        return back()->withErrors('Invalid File Format')->withInput();
+                    }elseif(trim($arrayKeys[23]) !== "Contact Email*"){
+                        return back()->withErrors('Invalid File Format')->withInput();
+                    }elseif(trim($arrayKeys[24]) !== "Contact Phone*"){
                         return back()->withErrors('Invalid File Format')->withInput();
                     }
                 }else{
@@ -940,7 +956,20 @@ class SchoolController extends Controller
                         $errorMessages[] = 'Invalid Closure Month at Row #'.$i;
                         //return back()->withErrors('Invalid Closure Month at Row #'.$i)->withInput();
                     }
-                    
+
+
+                    $contact_name = trim($sheet->getCell( 'V' . $row )->getValue());
+                    $contact_title = trim($sheet->getCell( 'W' . $row )->getValue());
+                    $contact_email = trim($sheet->getCell( 'X' . $row )->getValue());
+                    $contact_phone = trim($sheet->getCell( 'Y' . $row )->getValue());
+                    $contactData[] = [
+                        "name" => $contact_name,
+                        "title" => $contact_title,
+                        "email" => $contact_email,
+                        "phone" => $contact_phone
+                    ];
+
+
                     $data[] = [
                         'title' =>trim($sheet->getCell( 'A' . $row )->getValue()),
                         'school_type_id' => $schoolTypeId,
@@ -970,7 +999,12 @@ class SchoolController extends Controller
             if(!empty($errorMessages)){
                 return back()->withErrors($errorMessages)->withInput();
             }
-            School::insert($data);
+            foreach($data as $i=>$schoolData){
+                $school = School::create($schoolData);
+                $contactData[$i]['school_id'] = $school->id;
+                SchoolContact::create($contactData[$i]);
+            }
+            //School::insert($data);
             return redirect()->route($urlSlug . '.index')->with('success', 'Bulk Import successfully done.');
         } catch (\Exception $e) {
             return back()->withErrors($e->getMessage())->withInput();

@@ -26,7 +26,7 @@ class SchoolContactController extends Controller
             if(empty($sid)){
                 return redirect()->route('schools.index');
             }
-            $items = SchoolContact::orderBy('created_at','desc')->get();
+            $items = SchoolContact::where("school_id",$sid)->orderBy('created_at','desc')->get();
             $school = School::findOrFail($sid);
             $urlSlug = $this->urlSlugs;
             $title = $this->titles;
